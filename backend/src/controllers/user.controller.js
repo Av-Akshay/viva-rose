@@ -1,7 +1,5 @@
 const userService = require("../services/user.service.js");
-const auth = require("../middlewares/auth.js");
 const logger = require("../configs/winston.config.js");
-const propertyService = require("../services/property.service.js");
 
 // Create a new user
 const createUser = async (req, res, next) => {
@@ -36,7 +34,7 @@ const getAllUsers = async (req, res, next) => {
 // Get user by ID
 const getUserById = async (req, res, next) => {
   try {
-    const user = await userService.getUserById(req.params.id);
+    const user = await userService.getUserById(req.user.id);
     res.status(200).json({
       success: true,
       data: user,
@@ -66,9 +64,9 @@ const updateUser = async (req, res, next) => {
 // Delete user by ID
 const deleteUser = async (req, res, next) => {
   try {
-    await userService.deleteUser(req.params.id);
+    await userService.deleteUser(req.user.id);
     logger.info(
-      "User id:" + `${req.params.id}` + " has been deleted successfully"
+      "User id:" + `${req.user.id}` + " has been deleted successfully"
     );
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
@@ -76,44 +74,10 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-// Add a property to favorites
-const addFavoriteProperty = async (req, res, next) => {
-  try {
-    const property = await propertyService.addFavoriteProperty(
-      req.user.id,
-      req.body.propertyId
-    );
-    res.status(200).json({
-      success: true,
-      data: property,
-    });
-  } catch (error) {
-    //console.log(error);
-    next(error);
-  }
-};
-
-// Remove a property from favorites
-const removeFavoriteProperty = async (req, res, next) => {
-  try {
-    const property = await propertyService.removeFavoriteProperty(
-      req.user.id,
-      req.body.propertyId
-    );
-    res.status(200).json({
-      success: true,
-      data: property,
-    });
-  } catch (error) {
-    //console.log(error);
-    next(error);
-  }
-};
-
 const changePassword = async (req, res, next) => {
   try {
     const updatedUser = await userService.changePassword(
-      req.params.id,
+      req.user.id,
       req.body
     );
     res.status(200).json({
@@ -153,9 +117,10 @@ const orders = async (req, res, next) => {
     next(error);
   }
 };
+
 const wishlistProduct = async (req, res, next) => {
   try {
-    const wishlist = await userService.wishlistProduct(userId);
+    const wishlist = await userService.wishlistProduct(req.user.id);
     res.status(200).json({
       success: true,
       data: wishlist,

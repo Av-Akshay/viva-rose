@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
   },
   isVerified: { type: Boolean, default: false},
   role: {type: String, enum: ["User","Agent","Admin"], default: 'User'},
-  phone: { type: String, minlength: 12, maxlength: 12 },
+  phone: { type: String, minlength: 12, maxlength: 12},
   email: {
     type: String,
     required: true,

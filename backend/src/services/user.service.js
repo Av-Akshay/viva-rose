@@ -6,7 +6,8 @@ const {
   BadRequestError,
 } = require("../errors/errors.js");
 const { sendOTP, verifyOTP } = require("../utils/email.util.js");
-const hashValue = require("../utils/hashing.service.js");
+const JWTToken = require("../utils/token.generation.util.js");
+const hashValue = require("../utils/hashing.util.js");
 const logger = require("../configs/winston.config.js");
 const dotenv = require("dotenv");
 
@@ -28,17 +29,19 @@ const createUser = async (userData) => {
   user.email = email;
   user.role = "User";
   user.password = password;
+  user.phone= userData.phone;
   user.isVerified = false;
 
   await user.save();
-  const response = await sendOTP(user.email);
+  //const response = await sendOTP(user.email);
+  const response=JWTToken.generateToken(user);
 
   return { response, user }; // Return both user and token
 };
 
 const getAllUsers = async () => {
   const users = await User.find()
-    .populate("Order")
+    //.populate("Order")
     .exec();
 
   logger.error("error");
@@ -47,7 +50,7 @@ const getAllUsers = async () => {
 
 const getUserById = async (userId) => {
   const user = await User.findById(userId)
-    .populate("Order")
+    //.populate("Order")
     .exec();
   if (!user) {
     throw new NotFoundError("User not found");

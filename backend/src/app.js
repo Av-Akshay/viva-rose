@@ -12,6 +12,9 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./configs/swagger.config.js");
 require("dotenv").config();
 
+const wishlistRoutes = require("./routes/wishlist.route.js");
+const userRoutes = require("./routes/user.route.js");
+
 connectDb();
 
 app.use(compression());
@@ -68,6 +71,10 @@ app.use(
 app.use(express.json());
 app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(errorHandler);
+
+
+app.use("/api/wishlist",wishlistRoutes);
+app.use("/api/users",userRoutes);
 
 // // Request Logger Middleware (using express-pino)
 // app.use(expressPino({ logger }));

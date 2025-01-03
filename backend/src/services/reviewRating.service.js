@@ -1,5 +1,6 @@
 const { NotFoundError } = require("../errors/errors");
 const ReviewRating = require("../models/reviewRating.model");
+const Product = require("../models/product.model.js");
 const {uploadImages, uploadImage} = require('../utils/upload.image.service.js');
 
 const createReview = async (userId, productId, reviewData) => {
@@ -37,10 +38,16 @@ const getReviewById = async (reviewId) => {
     return review;
 };
 
-const updateReview = async (reviewId, reviewData) => {
+const updateReview = async (userId, reviewId, reviewData) => {
+    
     const review = await ReviewRating.findById({ reviewId });
     if(!review){
         throw new NotFoundError("Review not found");
+    }
+    const user= await userService.getUserById(userId);
+    // Ensure the user has the 'admin' role
+    if (user.role === 'Admin' || review.userId === user._id) {
+        throw new BadRequestError('Only admins and review creator can update reviews');
     }
     const imageURLs = await uploadImages(file);
     reviewData.reviewImages=imageURLs;
@@ -48,10 +55,15 @@ const updateReview = async (reviewId, reviewData) => {
     return await ReviewRating.findByIdAndUpdate(reviewId, reviewData, { new: true });
 };
 
-const deleteReview = async (reviewId) => {
+const deleteReview = async (userId, reviewId) => {
     const review = await ReviewRating.findById({ reviewId });
     if(!review){
         throw new NotFoundError("Review not found");
+    }
+    const user= await userService.getUserById(userId);
+    // Ensure the user has the 'admin' role
+    if (user.role === 'Admin' || review.userId === user._id) {
+        throw new BadRequestError('Only admins and review creator can update reviews');
     }
     await ReviewRating.findByIdAndDelete(reviewId);
     
