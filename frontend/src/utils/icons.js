@@ -5,5 +5,6 @@ import set from "/images/set.jpeg";
 import ring from "/images/ring.png";
 import pin from "/images/pin.jpeg";
 import GentsBracelet from "/images/Gents bracelet.jpg";
+import loginPoster from "/images/loginPoster.jpg";
 
-export { logo, ethnic, jewellery, set, ring, pin, GentsBracelet };
+export { loginPoster, logo, ethnic, jewellery, set, ring, pin, GentsBracelet };

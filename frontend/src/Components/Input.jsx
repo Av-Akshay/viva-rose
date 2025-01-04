@@ -7,14 +7,14 @@ const Input = React.forwardRef(function Input(
   return (
     <div className="w-full">
       {label ? (
-        <label className="text-headingColor font-poppinsMedium uppercase max-sm:text-sm">
+        <label className="text-headingColor font-poppinsMedium uppercase max-sm:text-sm  ">
           {label}
         </label>
       ) : (
         ""
       )}
       <input
-        className={`w-full px-5 py-2 outline-none font-serif ${className}`}
+        className={`w-full px-5 py-2 outline-none font-poppinsMedium ${className}`}
         type={type}
         placeholder={placeholder}
         ref={ref}

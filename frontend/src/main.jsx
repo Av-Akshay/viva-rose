@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Loader } from "./Components/index.js";
 
 const LandingPage = lazy(() => import("./pages/LandingPage.jsx"));
+const LoginPage = lazy(() => import("./pages/Login.jsx"));
 
 const routes = createBrowserRouter([
   {
@@ -17,6 +18,14 @@ const routes = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <LandingPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/login",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <LoginPage />
           </Suspense>
         ),
       },
