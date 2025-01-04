@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import { ContactSection, Section } from "../Components";
+import { ContactSection, Section, ShopByGenderSection } from "../Components";
 
 const LandingPage = () => {
   return (
@@ -20,6 +20,7 @@ const LandingPage = () => {
         tagline={" Our latest release, just for you"}
         className={"bg-extraLight"}
       />
+      <ShopByGenderSection />
       <ContactSection />
     </React.Fragment>
   );

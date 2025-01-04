@@ -7,7 +7,7 @@ import Pera from "../Pera";
 
 const ContactSection = () => {
   return (
-    <div className="w-full my-10">
+    <div className="w-full my-10 bg-extraLight py-5">
       <div className="w-4/5 m-auto flex flex-col items-center gap-2 overflow-hidden">
         <Heading heading={"Connect with us"} />
         <Pera pera="We're here for you, ready to help whenever you need us." />

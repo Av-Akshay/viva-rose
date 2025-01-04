@@ -10,6 +10,7 @@ import Input from "./Input";
 import Section from "./landing/Section";
 import ContactSection from "./landing/ContactSection";
 import ContactForm from "./landing/ContactForm";
+import ShopByGenderSection from "./landing/ShopByGenderSection";
 
 export {
   Input,
@@ -22,4 +23,5 @@ export {
   Section,
   ContactSection,
   ContactForm,
+  ShopByGenderSection,
 };
