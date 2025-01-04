@@ -7,7 +7,7 @@ const Input = React.forwardRef(function Input(
   return (
     <div className="w-full">
       {label ? (
-        <label className="text-white font-poppinsMedium uppercase max-sm:text-sm">
+        <label className="text-headingColor font-poppinsMedium uppercase max-sm:text-sm">
           {label}
         </label>
       ) : (
