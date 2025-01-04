@@ -7,6 +7,7 @@ import { Loader } from "./Components/index.js";
 
 const LandingPage = lazy(() => import("./pages/LandingPage.jsx"));
 const LoginPage = lazy(() => import("./pages/Login.jsx"));
+const SignupPage = lazy(() => import("./pages/SignUp.jsx"));
 
 const routes = createBrowserRouter([
   {
@@ -26,6 +27,14 @@ const routes = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <LoginPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/signup",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SignupPage />
           </Suspense>
         ),
       },
