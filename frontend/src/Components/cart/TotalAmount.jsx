@@ -11,7 +11,7 @@ const TotalAmount = () => {
   return (
     <div className="flex items-end gap-5 justify-center flex-col my-5 max-sm:items-center">
       <div className="flex items-baseline gap-2">
-        <p className="font-poppinsLight ">Subtotal</p>
+        <p className="font-poppinsLight">Subtotal</p>
         <span className="text-5xl font-medium font-poppinsMedium max-sm:text-3xl max-md:text-4xl">
           Rs.5000
         </span>

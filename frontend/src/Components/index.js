@@ -16,6 +16,9 @@ import ShopByGenderSection from "./landing/ShopByGenderSection";
 import CartProduct from "./cart/CartProduct";
 import TotalAmount from "./cart/TotalAmount";
 
+//-------------------- Wishlist page-----------------------------
+import WishlistProduct from "./wishlist.jsx/WishlistProduct";
+
 export {
   Input,
   Heading,
@@ -30,4 +33,5 @@ export {
   ShopByGenderSection,
   CartProduct,
   TotalAmount,
+  WishlistProduct,
 };
