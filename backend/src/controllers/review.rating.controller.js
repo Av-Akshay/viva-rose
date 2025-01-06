@@ -1,4 +1,4 @@
-const ReviewRatingService = require('../services/reviewRating.service.js');
+const ReviewRatingService = require('../services/review.rating.service.js');
 
 // Create a new contact form
 const createReviewRating = async (req, res, next) => {

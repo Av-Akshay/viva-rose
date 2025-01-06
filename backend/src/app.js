@@ -14,6 +14,7 @@ require("dotenv").config();
 
 const wishlistRoutes = require("./routes/wishlist.route.js");
 const userRoutes = require("./routes/user.route.js");
+const authRoutes = require("./routes/user.login.route.js");
 
 connectDb();
 
@@ -75,6 +76,7 @@ app.use(errorHandler);
 
 app.use("/api/wishlist",wishlistRoutes);
 app.use("/api/users",userRoutes);
+app.use("/api/auth",authRoutes);
 
 // // Request Logger Middleware (using express-pino)
 // app.use(expressPino({ logger }));

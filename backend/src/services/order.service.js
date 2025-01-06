@@ -20,6 +20,14 @@ const createOrder = async (userId) => {
         if (!cart || cart.items.length === 0) {
             throw new BadRequestError("Cart is empty");
         }
+        if(cart.items){
+            console.log(cart.items);
+            for(item in cart.items){
+                if(item.productId.stockStatus==='in-stock'){
+                    
+            }
+        }
+    }
 
         // Calculate total amount
         const totalAmount = cart.items.reduce((sum, item) => {
@@ -83,8 +91,14 @@ const verifyPayment = async (razorpay_order_id, razorpay_payment_id, razorpay_si
 
         order.paymentStatus = "Paid";
         await order.save();
+        const product=order.productId;
+        if(!product){
+            throw new NotFoundError("Product not found");
+        }
+        product.orders.push(order._id);
+        await product.save();
 
-        res.status(200).json({ message: "Payment successful", order });
+        return { message: "Payment successful", order };
 };
 
 // Get all orders for a user
@@ -118,7 +132,7 @@ const deleteOrder = async (orderId) => {
             throw new NotFoundError("Order not found");
         } 
         const order = await Order.findByIdAndDelete(orderId);
-        return order;
+        return { message: "Order deleted successfully", order };
 };
 
 module.exports={createOrder, initiatePayment, verifyPayment, getOrderById, getOrdersByUserId, updateOrderStatus, deleteOrder};

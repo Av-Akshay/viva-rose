@@ -1,9 +1,13 @@
 const { NotFoundError } = require("../errors/errors");
-const ReviewRating = require("../models/reviewRating.model");
+const ReviewRating = require("../models/review.rating.model");
 const Product = require("../models/product.model.js");
 const {uploadImages, uploadImage} = require('../utils/upload.image.service.js');
 
 const createReview = async (userId, productId, reviewData) => {
+    const product = await Product.findById({ productId });
+    if(!product){
+        throw new NotFoundError("Product not found");
+    }
     const imageURLs = await uploadImages(file);
     const reviewRating = new ReviewRating();
     reviewRating.productId= productId;
@@ -13,7 +17,8 @@ const createReview = async (userId, productId, reviewData) => {
     reviewRating.reviewImages=imageURLs;
 
     await reviewRating.save();
-
+    product.ratingReview.push(reviewRating._id);
+    await user.save();
     return reviewRating;
 };
 
@@ -60,12 +65,22 @@ const deleteReview = async (userId, reviewId) => {
     if(!review){
         throw new NotFoundError("Review not found");
     }
+    const product= review.productId;
+    if(!product){
+        throw new NotFoundError("Product not found");
+    }
     const user= await userService.getUserById(userId);
     // Ensure the user has the 'admin' role
     if (user.role === 'Admin' || review.userId === user._id) {
         throw new BadRequestError('Only admins and review creator can update reviews');
     }
+
     await ReviewRating.findByIdAndDelete(reviewId);
+    
+    product.reviewRating = product.reviewRating.filter(
+        (id) => id.toString() !== reviewId.toString()
+    );
+    await product.save();
     
     return review;
 };

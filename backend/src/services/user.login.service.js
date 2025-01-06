@@ -1,7 +1,7 @@
 const User = require("../models/user.model.js");
-const JWTToken = require("../utils/token.generation.service.js");
+const JWTToken = require("../utils/token.generation.util.js");
 const { sendOTP, verifyOTP } = require("../utils/email.util.js");
-const hashValue = require("../utils/hashing.service.js");
+const hashValue = require("../utils/hashing.util.js");
 
 const {
   ConflictError,
@@ -25,7 +25,8 @@ const loginUser = async (email, password) => {
     throw new BadRequestError("Incorrect password");
   }
 
-  const response = await sendOTP(user.email);
+  //const response = await sendOTP(user.email);
+  const response=JWTToken.generateToken(user);
   return { response };
 };
 

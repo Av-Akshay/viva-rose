@@ -1,10 +1,58 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { lazy, StrictMode, Suspense } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Loader } from "./Components/index.js";
 
-createRoot(document.getElementById('root')).render(
+const LandingPage = lazy(() => import("./pages/LandingPage.jsx"));
+const LoginPage = lazy(() => import("./pages/Login.jsx"));
+const SignupPage = lazy(() => import("./pages/SignUp.jsx"));
+const CartPage = lazy(() => import("./pages/CartPage.jsx"));
+
+const routes = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <LandingPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/login",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <LoginPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/signup",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SignupPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/cart",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CartPage />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+]);
+
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <RouterProvider router={routes} />
+  </StrictMode>
+);

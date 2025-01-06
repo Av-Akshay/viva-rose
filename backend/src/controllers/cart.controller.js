@@ -45,7 +45,7 @@ const removeCartItem = async (req, res, next) => {
 };
 
 // Clear cart
-const clearCart = async (userId) => {
+const clearCart = async (req, res, next) => {
     try{
         const response = await cartService.clearCart(req.user.id);
         res.status(200).json({success: true,

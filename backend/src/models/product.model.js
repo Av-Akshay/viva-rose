@@ -5,11 +5,12 @@ const productSchema = new mongoose.Schema({
     productName: { type: String, required: true },
     productType: { type: String, required: true }, // e.g., ring, necklace, bracelet
     material: { type: String, default: 'Silver' },
-    colour: {type: String},
-    length: {type: Number},
-    width: {type: Number},
-    height: {type: Number},
-    lwhUnit: {type: String, default: 'cm'},
+    genderCategory: {type: String, default: 'Women'}, // e.g. Women, Men, Kids
+    // colour: {type: String},
+    // length: {type: Number},
+    // width: {type: Number},
+    // height: {type: Number},
+    // lwhUnit: {type: String, default: 'cm'},
     materialWeight: {type: Number},
     materialUnit: {type: String, default: 'gram'},
     stock: { type: Number, default: 0 },

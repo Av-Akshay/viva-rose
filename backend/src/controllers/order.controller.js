@@ -1,136 +1,73 @@
 const orderService = require("../services/order.service.js");
 
 // Create an order from the cart
-const createOrder = async (req, res) => {
-    try {
-        const { userId } = req.body;
-
-        const cart = await Cart.findOne({ userId }).populate("items.productId");
-        if (!cart || cart.items.length === 0) {
-            return res.status(400).json({ message: "Cart is empty" });
-        }
-
-        // Calculate total amount
-        const totalAmount = cart.items.reduce((sum, item) => {
-            return sum + item.productId.price * item.quantity;
-        }, 0);
-
-        // Create an order
-        const order = new Order({
-            userId,
-            items: cart.items,
-            totalAmount,
-        });
-
-        await order.save();
-
-        // Clear the cart
-        cart.items = [];
-        await cart.save();
-
-        res.status(201).json({ message: "Order placed successfully", order });
+const createOrder = async (req, res, next) => {
+    try{
+        const {message, order}= await orderService.createOrder(req.user.id);
+        res.status(201).json({ message, order });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
 // Initiate Razorpay payment
-const initiatePayment = async (req, res) => {
+const initiatePayment = async (req, res, next) => {
     try {
-        const { orderId } = req.body;
-
-        const order = await Order.findById(orderId);
-        if (!order) {
-            return res.status(404).json({ message: "Order not found" });
-        }
-
-        // Create Razorpay order
-        const razorpayOrder = await razorpay.orders.create({
-            amount: order.totalAmount * 100, // Amount in paise
-            currency: "INR",
-            receipt: `order_${order._id}`,
-        });
-
-        // Attach paymentId to order
-        order.paymentId = razorpayOrder.id;
-        await order.save();
-
+        const razorpayOrder= await orderService.initiatePayment(req.body.orderId);
         res.status(200).json({ razorpayOrder });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+         next(error);
     }
 };
 
 // Verify Razorpay payment
-const verifyPayment = async (req, res) => {
-    const crypto = require("crypto");
+const verifyPayment = async (req, res, next) => {
     try {
-        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
-
-        const generatedSignature = crypto
-            .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-            .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-            .digest("hex");
-
-        if (generatedSignature !== razorpay_signature) {
-            return res.status(400).json({ message: "Payment verification failed" });
-        }
-
-        // Update order status
-        const order = await Order.findOne({ paymentId: razorpay_order_id });
-        if (!order) {
-            return res.status(404).json({ message: "Order not found" });
-        }
-
-        order.paymentStatus = "Paid";
-        await order.save();
-
-        res.status(200).json({ message: "Payment successful", order });
+        const { message, order }= await orderService.verifyPayment(req.body.razorpay_order_id, req.body.razorpay_payment_id, req.body.razorpay_signature);
+        res.status(200).json({ message, order });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+         next(error);
     }
 };
 
 // Get all orders for a user
-const getOrdersByUserId = async (req, res) => {
+const getOrdersByUserId = async (req, res, next) => {
     try {
-        const orders = await Order.find({ userId: req.params.userId });
+        const orders = await orderService.getOrdersByUserId(req.user.id);
         res.status(200).json(orders);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+         next(error);
     }
 };
 
 // Get a single order by ID
-const getOrderById = async (req, res) => {
+const getOrderById = async (req, res, next) => {
     try {
-        const order = await Order.findById(req.params.id).populate("items.productId");
-        if (!order) return res.status(404).json({ message: "Order not found" });
+        const order = await orderService.getOrderById(req.body.orderId);
         res.status(200).json(order);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+         next(error);
     }
 };
 
 // Update order status
-const updateOrderStatus = async (req, res) => {
+const updateOrderStatus = async (req, res, next) => {
     try {
-        const { status } = req.body;
-        const order = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true });
-        if (!order) return res.status(404).json({ message: "Order not found" });
+        const order = await orderService.updateOrderStatus(req.body.orderId, req.body);
         res.status(200).json(order);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+         next(error);
     }
 };
 
 // Delete an order
-const deleteOrder = async (req, res) => {
+const deleteOrder = async (req, res, next) => {
     try {
-        const order = await Order.findByIdAndDelete(req.params.id);
-        if (!order) return res.status(404).json({ message: "Order not found" });
-        res.status(200).json({ message: "Order deleted successfully" });
+        const { message, order } = await orderService.findByIdAndDelete(req.body.orderId);
+        res.status(200).json({ message, order });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+         next(error);
     }
 };
+
+module.exports={createOrder, initiatePayment, verifyPayment, getOrderById, getOrdersByUserId, updateOrderStatus, deleteOrder};
