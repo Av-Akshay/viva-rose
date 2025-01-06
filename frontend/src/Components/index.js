@@ -12,6 +12,10 @@ import ContactSection from "./landing/ContactSection";
 import ContactForm from "./landing/ContactForm";
 import ShopByGenderSection from "./landing/ShopByGenderSection";
 
+//---------------------- cart page ------------------------
+import CartProduct from "./cart/CartProduct";
+import TotalAmount from "./cart/TotalAmount";
+
 export {
   Input,
   Heading,
@@ -24,4 +28,6 @@ export {
   ContactSection,
   ContactForm,
   ShopByGenderSection,
+  CartProduct,
+  TotalAmount,
 };

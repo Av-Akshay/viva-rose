@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+// import daisyui from "daisyui";
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -20,6 +21,14 @@ export default {
         headingColor: "#AC051B",
         lightColor: "#D3022C",
         extraLight: "#FBE5EA",
+      },
+      gridTemplateColumns: {
+        "wishlist-layout-one": " 1.4fr 0.6fr 1fr",
+        "wishlist-layout-two": "1.4fr 0.4fr 1.2fr",
+        "wishlist-layout-third": "1.6fr 0.6fr 0.5fr",
+        "cart-layout-one": "1.6fr 0.7fr 0.7fr",
+        "cart-layout-two": "1.6fr 0.7fr 0.7fr",
+        "cart-layout-third": "1.8fr 0.6fr 0.6fr",
       },
     },
   },

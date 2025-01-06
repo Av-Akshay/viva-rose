@@ -18,7 +18,7 @@ const LandingPage = () => {
       <Section
         heading={"New For You"}
         tagline={" Our latest release, just for you"}
-        className={"bg-extraLight"}
+        className={"!bg-extraLight"}
       />
       <ShopByGenderSection />
       <ContactSection />
