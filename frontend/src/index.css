@@ -39,24 +39,4 @@
 
 .my-scrollbar {
   scrollbar-width: none; /* For Firefox */
-  scrollbar-color: gray #f0f0f0; /* Thumb and track colors for Firefox */
-}
-
-/* Chrome, Edge, Safari */
-.my-scrollbar::-webkit-scrollbar {
-  width: 10px; /* Scrollbar width */
-  height: 10px; /* Horizontal scrollbar height */
-}
-
-.my-scrollbar::-webkit-scrollbar-track {
-  background: #f0f0f0; /* Track color */
-}
-
-.my-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #ff4d4f; /* Thumb color */
-  border-radius: 10px; /* Rounded corners */
-  border: 2px solid #f0f0f0; /* Optional: Thumb border */
-}
-.my-scrollbar::-webkit-scrollbar-button {
-  display: none; /* Removes the increment/decrement buttons */
 }
