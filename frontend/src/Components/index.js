@@ -21,6 +21,8 @@ import WishlistProduct from "./wishlist.jsx/WishlistProduct";
 
 //----------------------------- ProductsListingPage--------------------
 import Filters from "./productListingComponent/Filters";
+import ProductsSort from "./productListingComponent/ProductsSort";
+import Products from "./productListingComponent/Products";
 
 export {
   Input,
@@ -38,4 +40,6 @@ export {
   TotalAmount,
   WishlistProduct,
   Filters,
+  ProductsSort,
+  Products,
 };
