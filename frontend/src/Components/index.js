@@ -19,6 +19,9 @@ import TotalAmount from "./cart/TotalAmount";
 //-------------------- Wishlist page-----------------------------
 import WishlistProduct from "./wishlist.jsx/WishlistProduct";
 
+//----------------------------- ProductsListingPage--------------------
+import Filters from "./productListingComponent/Filters";
+
 export {
   Input,
   Heading,
@@ -34,4 +37,5 @@ export {
   CartProduct,
   TotalAmount,
   WishlistProduct,
+  Filters,
 };
