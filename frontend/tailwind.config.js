@@ -21,6 +21,7 @@ export default {
         headingColor: "#AC051B",
         lightColor: "#D3022C",
         extraLight: "#FBE5EA",
+        ratingColor: "#ffa534",
       },
       gridTemplateColumns: {
         "wishlist-layout-one": " 1.4fr 0.6fr 1fr",

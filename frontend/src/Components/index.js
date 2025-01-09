@@ -24,6 +24,10 @@ import Filters from "./productListingComponent/Filters";
 import ProductsSort from "./productListingComponent/ProductsSort";
 import Products from "./productListingComponent/Products";
 
+// -------------------- product detail page --------------------
+import Stars from "../Components/product-details/Stars";
+import AddToCart from "./product-details/AddToCart";
+
 export {
   Input,
   Heading,
@@ -42,4 +46,6 @@ export {
   Filters,
   ProductsSort,
   Products,
+  Stars,
+  AddToCart,
 };
