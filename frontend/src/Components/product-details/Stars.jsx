@@ -1,6 +1,7 @@
 import React from "react";
 import { FaStarHalfAlt } from "react-icons/fa";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Star = ({ stars, review }) => {
   const ratingStar = Array.from({ length: 5 }, (elem, index) => {
@@ -22,9 +23,9 @@ const Star = ({ stars, review }) => {
     <React.Fragment>
       <div className="flex items-center">
         {ratingStar}
-        <p className="ml-2 capitalize font-poppinsLight">
+        <Link to={"#"} className="ml-2 capitalize font-poppinsLight">
           ({review} customer reviews)
-        </p>
+        </Link>
       </div>
     </React.Fragment>
   );

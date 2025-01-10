@@ -3,10 +3,10 @@ const jewelleryValues = {
   productCode: "bracelet@123",
   jewelleryType: "bracelet",
   material: "silver",
-  colors: "Silver - Shinny",
+  colors: "Silver - Shiny",
   weight: "6",
   weightUnit: "grms",
-  price: "10999",
+  price: "10,999",
   stock: 10,
   description:
     " This is one of our best product. This jewellery is made in purest form of silver (92.5). ",
