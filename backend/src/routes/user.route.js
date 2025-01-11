@@ -151,7 +151,7 @@ router.delete("/delete", auth, userController.deleteUser);
  *         application/json:
  *           schema:
  *             type: object
- *             users:
+ *             properties:
  *               oldPassword:
  *                 type: string
  *                 description: Updated user's old password

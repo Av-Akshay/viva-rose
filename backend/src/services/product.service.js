@@ -1,7 +1,7 @@
 const { NotFoundError, BadRequestError, ConflictError } = require("../errors/errors");
 const userService = require("./user.service.js");
 const Product = require("../models/product.model.js");
-const {uploadImages} = require('../utils/image.upload.util.js');
+const {uploadImages, deleteImages} = require('../utils/image.upload.util.js');
 
 const createProduct = async (userId, productData, files) => {
     var productCodeString='VRSJ';
@@ -40,7 +40,6 @@ const createProduct = async (userId, productData, files) => {
 };
 
 const getProductById = async (productId) => {
-    const id=productId;
     const product = await Product.findById(productId);
     if(!product){
         throw new NotFoundError("Product not found");
@@ -108,20 +107,56 @@ const searchProducts = async (filters, sortBy, sortOrder) => {
     // return review;
 };
 
-const updateProduct = async (userId, productId, productData) => {
+const updateProduct = async (userId, productId, productData, files) => {
     const user= await userService.getUserById(userId);
     // Ensure the user has the 'admin' role
     if (user.role !== 'Admin') {
         throw new BadRequestError('Only admins can update products');
     }
-    const product = await Product.findById({ productId });
+    const product = await Product.findById(productId);
     if(!product){
         throw new NotFoundError("Product not found");
     }
-    const imageURLs = await uploadImages(file);
-    productData.productImages=imageURLs;
+    if(productData.productCode){
+        product.productCode=productData.productCode;
+    }
+    if(productData.productName){
+        product.productName=productData.productName;
+    }
+    if(productData.productType){
+        product.productType=productData.productType;
+    }
+    if(productData.material){
+        product.material=productData.material;
+    }
+    if(productData.genderCategory){
+        product.genderCategory=productData.genderCategory;
+    }
+    if(productData.color){
+        product.color=productData.color;
+    }
+    if(productData.materialWeight){
+        product.materialWeight=productData.materialWeight;
+    }
+    if(productData.stockCount){
+        product.stockCount=productData.stockCount;
+    }
+    if(productData.price){
+        product.price=productData.price;
+    }
+    if(productData.stockStatus){
+        product.stockStatus=productData.stockStatus;
+    }
+    if(productData.description){
+        product.description=productData.description;
+    }
+    if(files){
+        const imageURLs = await uploadImages(files);
+        product.productImages=imageURLs;
+    }
+    await product.save();
 
-    return await Product.findByIdAndUpdate(productId, productData, { new: true });
+    return product;
 };
 
 const deleteProduct = async (userId, productId) => {
@@ -130,13 +165,18 @@ const deleteProduct = async (userId, productId) => {
     if (user.role !== 'Admin') {
         throw new BadRequestError('Only admins can delete products');
     }
-    const product = await Product.findById({ productId });
+    const product = await Product.findById(productId);
     if(!product){
         throw new NotFoundError("Product not found");
     }
+    // Delete associated images from Cloudinary
+    if (product.productImages && product.productImages.length > 0) {
+    //console.log(property.images.length);
+       await deleteImages(product.productImages);
+    }
     await Product.findByIdAndDelete(productId);
     
-    return review;
+    return product;
 };
 
 module.exports = {

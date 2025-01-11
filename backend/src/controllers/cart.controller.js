@@ -1,4 +1,5 @@
 const cartService = require("../services/cart.service.js");
+const logger = require("../configs/winston.config.js");
 
 // Get cart by userId
 const getCartByUserId = async (req, res, next) => {

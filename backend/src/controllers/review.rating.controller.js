@@ -1,4 +1,5 @@
 const ReviewRatingService = require('../services/review.rating.service.js');
+const logger = require("../configs/winston.config.js");
 
 // Create a new contact form
 const createReviewRating = async (req, res, next) => {

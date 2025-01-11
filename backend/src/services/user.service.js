@@ -154,14 +154,14 @@ const orders = async (userId) => {
 };
 
 const wishlistProduct = async(userId) =>{
-    const User = await User.findById(userId)
-    .populate("Products")
+    const user = await User.findById(userId)
+    .populate("wishlist")
     .exec();
 
-    if(User.wishlist.length=='0'){
+    if(user.wishlist.length=='0'){
         throw new NotFoundError("No products found");
     }
-    return User.wishlist;
+    return user.wishlist;
 }
 
 // Add a property to favorites

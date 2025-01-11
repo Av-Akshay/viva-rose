@@ -96,13 +96,13 @@ router.get("/:id", productController.getProductById);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
- *               productCode:
- *                 type: string
  *               productName:
+ *                 type: string
+ *               material:
  *                 type: string
  *               genderCategory:
  *                 type: string
@@ -116,15 +116,22 @@ router.get("/:id", productController.getProductById);
  *                 type: number
  *               stockStatus:
  *                 type: string
+ *                 enum: ['in-stock','out-of-stock']
  *               description:
  *                 type: string
+ *               images:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: Images of the property (up to 10 images).
  *     responses:
  *       200:
  *         description: Product updated successfully
  *       404:
  *         description: Product not found
  */
-router.put("/:id", auth, productController.updateProduct);
+router.put("/:id", upload, auth, productController.updateProduct);
 
 /**
  * @swagger
@@ -144,6 +151,6 @@ router.put("/:id", auth, productController.updateProduct);
  *       404:
  *         description: Product not found
  */
-router.delete("/", auth, productController.deleteProduct);
+router.delete("/:id", auth, productController.deleteProduct);
 
 module.exports = router;

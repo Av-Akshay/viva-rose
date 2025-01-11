@@ -33,7 +33,7 @@ router.get('/',auth, userController.wishlistProduct);
  *         application/json:
  *           schema:
  *             type: object
- *             products:
+ *             properties:
  *               productId:
  *                 type: string
  *                 description: ProductId
@@ -61,8 +61,8 @@ router.post('/add-product', auth, userController.addWishlistProduct);
  *         application/json:
  *           schema:
  *             type: object
- *             products:
- *               pproductId:
+ *             properties:
+ *               productId:
  *                 type: string
  *                 description: ProductId
  *     responses:

@@ -1,4 +1,5 @@
 const orderService = require("../services/order.service.js");
+const logger = require("../configs/winston.config.js");
 
 // Create an order from the cart
 const createOrder = async (req, res, next) => {

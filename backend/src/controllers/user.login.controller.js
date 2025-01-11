@@ -1,4 +1,5 @@
 const userLoginService = require("../services/user.login.service.js");
+const logger = require("../configs/winston.config.js");
 
 // Login a user
 const loginUser = async (req, res, next) => {

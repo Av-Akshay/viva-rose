@@ -1,4 +1,5 @@
 const contactFormService = require('../services/contact.form.service.js');
+const logger = require("../configs/winston.config.js");
 
 // Create a new contact form
 exports.createContactForm = async (req, res, next) => {

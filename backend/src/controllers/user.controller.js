@@ -133,7 +133,7 @@ const wishlistProduct = async (req, res, next) => {
 // Add a property to favorites
 const addWishlistProduct = async (req, res, next) => {
     try {
-      const wishlistProduct = await productService.addWishlistProduct(
+      const wishlistProduct = await userService.addWishlistProduct(
         req.user.id,
         req.body.productId
       );
@@ -150,7 +150,7 @@ const addWishlistProduct = async (req, res, next) => {
   // Remove a property from favorites
   const removeWishlistProduct = async (req, res, next) => {
     try {
-      const wishlistProduct = await productService.removeWishlistProduct(
+      const wishlistProduct = await userService.removeWishlistProduct(
         req.user.id,
         req.body.productId
       );

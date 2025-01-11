@@ -23,12 +23,12 @@ const createReview = async (userId, productId, reviewData) => {
 };
 
 const getReviewsByProduct = async (productId) => {
-    const product = await Product.findById({productId});
+    const product = await Product.findById(productId);
     if(!product){
         throw new NotFoundError("Product not found");
     }
 
-    const reviews = await ReviewRating.find({ productId }).populate("userId", "name").populate("productCode", "name");
+    const reviews = await ReviewRating.find(productId).populate("userId", "name").populate("productCode", "name");
     if(!reviews){
         throw new NotFoundError("Reviews not found");
     }
@@ -36,7 +36,7 @@ const getReviewsByProduct = async (productId) => {
 };
 
 const getReviewById = async (reviewId) => {
-    const review = await ReviewRating.findById({ reviewId });
+    const review = await ReviewRating.findById(reviewId);
     if(!review){
         throw new NotFoundError("Review not found");
     }
