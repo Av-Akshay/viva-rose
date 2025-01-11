@@ -1,39 +1,47 @@
 const { NotFoundError, BadRequestError, ConflictError } = require("../errors/errors");
 const userService = require("./user.service.js");
 const Product = require("../models/product.model.js");
-const {uploadImages, uploadImage} = require('../utils/upload.image.service.js');
+const {uploadImages, uploadImage} = require('../utils/image.upload.util.js');
 
-const createProduct = async (userId, productData) => {
+const createProduct = async (userId, productData, files) => {
+    var productCodeString='VRSJ';
+    function generateProductCode() {
+      let id;
+      do {
+        id = Math.floor(100000000 + Math.random() * 900000000);
+      } while (id % 10 === 0);
+      return id;
+    }   
     const user= await userService.getUserById(userId);
     // Ensure the user has the 'admin' role
     if (user.role !== 'Admin') {
         throw new BadRequestError('Only admins can create products');
     }
-    const imageURLs = await uploadImages(file);
+    const imageURLs = await uploadImages(files);
     const product = new Product();
-    product.productCode= productData.productCode;
+    product.productCode= productCodeString+generateProductCode();
     product.productName=productData.productName;
     product.genderCategory=productData.genderCategory;
     product.productType=productData.productType;
     // product.material=productData.material;
-    // product.colour=productData.colour;
+    product.colour=productData.colour;
     // product.length=productData.length;
     // product.width=productData.width;
     // product.height=productData.height;
     product.materialWeight=productData.materialWeight;
-    product.stock=productData.stock;
-    product.price=productData.price;
+    product.stockCount=productData.stockCount;
+    product.price=productData.price;            
     product.stockStatus=productData.stockStatus;
     product.description=productData.description;
     product.productImages=imageURLs;
     
     await product.save();
-
     return product;
 };
 
 const getProductById = async (productId) => {
-    const product = await Product.findById({productId}.populate("ReviewRating"));
+    const id=productId;
+    const product = await Product.findById(productId);
     if(!product){
         throw new NotFoundError("Product not found");
     }
@@ -47,27 +55,45 @@ const searchProducts = async (filters, sortBy, sortOrder) => {
     if (filters.productCode) query.productCode = filters.productCode;
     if (filters.productName) query.productName = filters.productName;
     if (filters.productType) query.productType = filters.productType;
-    if (filters.material) query.material = filters.material;
-    if (filters.colour) query.colour = filters.colour;
-    if (filters.stockStatus) query.stockStatus = filters.stockStatus;
+    if(filters.availability=="exclude out of stock"){
+        query.stockStatus='in-stock';
+    }
 
     // Budget filter (minPrice and maxPrice)
     if (filters.minPrice || filters.maxPrice) {
     query.price = {};
     if (filters.minPrice) query.price.$gte = filters.minPrice;
     if (filters.maxPrice) query.price.$lte = filters.maxPrice;
-  }
+   }
+
+   if(filters.rating==='4.0 and above'){
+    query.rating.$gte=4;
+   }
+   else if(filters.rating==='3.0 and above'){
+    query.rating.$gte=3;
+   }
 
   // Define sorting
   let sortCriteria = {};
   if (sortBy === 'price') {
-    sortCriteria.price = sortOrder; // 1 for ascending, -1 for descending
+    if(sortOrder==='Low to High'){
+        sortCriteria.price = 'asc';
+    }
+    else if(sortOrder==='High to Low'){
+        sortCriteria.price='desc';
+    }
   } else if (sortBy === 'rating') {
-      sortCriteria.ratingReview.rating = sortOrder; // 1 for ascending, -1 for descending (most recent first)
-  }
+    if(sortOrder==='Low to High'){
+        sortCriteria.ratingReview.rating = 'asc';
+    }
+    else if(sortOrder==='High to Low'){
+        sortCriteria.ratingReview.rating='desc';
+    }
+ }
   
   // Query database with filters and sorting
   const filteredProducts = await Product.find(query).sort(sortCriteria).select('-ratingReview').exec();
+  console.log(filteredProducts.length);
   
   if (!filteredProducts || filteredProducts.length === 0) {
     throw new NotFoundError('No products found matching the criteria.');

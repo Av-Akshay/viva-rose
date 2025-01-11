@@ -12,9 +12,15 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./configs/swagger.config.js");
 require("dotenv").config();
 
-const wishlistRoutes = require("./routes/wishlist.route.js");
 const userRoutes = require("./routes/user.route.js");
 const authRoutes = require("./routes/user.login.route.js");
+const productRoutes = require("./routes/product.route.js");
+const searchProductsRoutes= require("./routes/search.product.route.js");
+const reviewRatingRoutes = require("./routes/review.rating.route.js");
+const wishlistRoutes = require("./routes/wishlist.route.js");
+const orderRoutes = require("./routes/order.route.js");
+const cartRoutes = require("./routes/cart.route.js");
+const contactFormRoutes = require("./routes/contact.form.route.js");
 
 connectDb();
 
@@ -71,12 +77,14 @@ app.use(
 
 app.use(express.json());
 app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use(errorHandler);
 
-
-app.use("/api/wishlist",wishlistRoutes);
 app.use("/api/users",userRoutes);
 app.use("/api/auth",authRoutes);
+app.use("/api/wishlist",wishlistRoutes);
+app.use("/api/products",productRoutes);
+app.use("/api/jewellery",searchProductsRoutes);
+
+app.use(errorHandler);
 
 // // Request Logger Middleware (using express-pino)
 // app.use(expressPino({ logger }));

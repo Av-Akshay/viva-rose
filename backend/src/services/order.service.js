@@ -21,23 +21,25 @@ const createOrder = async (userId) => {
             throw new BadRequestError("Cart is empty");
         }
         if(cart.items){
+            const validItems=[];
             console.log(cart.items);
             for(item in cart.items){
                 if(item.productId.stockStatus==='in-stock'){
-                    
+                    validItems.push(item) ;
             }
         }
     }
+       console.log(validItems);
 
         // Calculate total amount
-        const totalAmount = cart.items.reduce((sum, item) => {
+        const totalAmount = validItems.reduce((sum, item) => {
             return sum + item.productId.price * item.quantity;
         }, 0);
 
         // Create an order
         const order = new Order({
             userId,
-            items: cart.items,
+            items: validItems,
             totalAmount,
         });
 

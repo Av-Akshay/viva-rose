@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const contactFormController = require('../controllers/contact.form.controller.js');
-const { contactLimiter } = require("../middleware/rate.limitter.js");
+const { contactLimiter } = require("../middlewares/rate.limitter.js");
 
 
 /**

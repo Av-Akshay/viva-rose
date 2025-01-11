@@ -4,7 +4,7 @@ const cloudinary = require('../configs/cloudinary.config.js'); // Ensure cloudin
 const uploadImages = async (files) => {
 
   const uploadedImages = [];
-  for (let i=0; i<= files.length-1;i++) {
+  for (let i=0; i< files.length;i++) {
     if (!files[i].buffer) {
       console.error('File is empty or missing buffer:', files[i]);
       uploadedImages.push(null);

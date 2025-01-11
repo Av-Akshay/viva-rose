@@ -43,8 +43,12 @@ const userSchema = new mongoose.Schema({
   profilePic: { type: String},
   reviewRating: [{ 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: "Order" 
+    ref: "ReviewRating" 
   }],
+  cart:{
+    type:mongoose.Schema.Types.ObjectId, 
+    ref: "Cart" 
+  },
 },{timestamps: true});
 
 const User = mongoose.model('User', userSchema);

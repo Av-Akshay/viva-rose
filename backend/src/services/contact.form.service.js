@@ -1,4 +1,4 @@
-const {sendContactUsEmail} = require("../utils/email.service.utils.js");
+const {sendContactUsEmail} = require("../utils/email.util.js");
 
 // Create a new contact form
 const createContactForm = async (formData) => {

@@ -4,18 +4,14 @@ const productSchema = new mongoose.Schema({
     productCode: { type: String, required: true },
     productName: { type: String, required: true },
     productType: { type: String, required: true }, // e.g., ring, necklace, bracelet
-    material: { type: String, default: 'Silver' },
-    genderCategory: {type: String, default: 'Women'}, // e.g. Women, Men, Kids
-    // colour: {type: String},
-    // length: {type: Number},
-    // width: {type: Number},
-    // height: {type: Number},
-    // lwhUnit: {type: String, default: 'cm'},
+    material: { type: String, default: 'silver' },
+    genderCategory: {type: String, default: 'women'}, // e.g. Women, Men, Kids
+    colour: {type: String},
     materialWeight: {type: Number},
     materialUnit: {type: String, default: 'gram'},
-    stock: { type: Number, default: 0 },
+    stockCount: { type: Number, default: 0 },
     price: { type: Number, required: true },
-    stockStatus: {type: String, required: true}, // e.g., in-stock, out-of-stock
+    stockStatus: {type: String, required: true, default: 'in-stock'}, // e.g., in-stock, out-of-stock //excludes out of stock
     description: { type: String },
     ratingReview: [{type: mongoose.Schema.Types.ObjectId,
         ref: "RatingReview"

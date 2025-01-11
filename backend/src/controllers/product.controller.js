@@ -1,6 +1,4 @@
 const productService = require("../services/product.service.js");
-const Product=require("../models/product.model.js");
-
 const logger = require("../configs/winston.config.js");
 
 // Controller for creating a new Property
@@ -9,7 +7,6 @@ const createProduct = async (req, res, next) => {
     const userId = req.user.id;
     const propertyData = req.body;
     const files = req.files;
-    //console.log(req?.user);
     const product = await productService.createProduct(
       userId,
       propertyData,
@@ -22,7 +19,7 @@ const createProduct = async (req, res, next) => {
         `${product._id}` +
         " successfully"
     );
-    return res.status(201).json({
+    res.status(201).json({
       success: true,
       data: product,
     });
@@ -34,9 +31,10 @@ const createProduct = async (req, res, next) => {
 
 const getProductById= async(req, res, next) =>{
     try{
-        const productId=req.body.productId;
-        const product= await Product.getProductById(productId);
-        return res.status(200).json({
+        const productId=req.params.id;
+        const product= await productService.getProductById(productId);
+        console.log(product);
+        res.status(200).json({
             success: true,
             data: product,
           });
@@ -54,22 +52,23 @@ const searchProducts= async(req, res, next) =>{
             productType: req.query.productType,
             material: req.query.material,
             colour: req.query.colour,
-            stockStatus: req.query.stockStatus,
+            availability: req.query.availability,
           };
       
           // Access sorting parameters from the query
           const sortBy = req.query.sortBy; // price or dateListed
           const sortOrder = req.query.sortOrder === "desc" ? -1 : 1; // 'desc' for descending, 'asc' or default for ascending
-        const product= await Product.searchProducts(filters, sortBy, sortOrder);
-        return res.status(200).json({
+        const product= await productService.searchProducts(filters, sortBy, sortOrder);
+        res.status(200).json({
             success: true,
             data: product,
           });
     }
     catch(error){
-        next(error);
+      //console.log(error);
+      next(error);
     }
-}
+};
 
 // Update user by ID
 const updateProduct = async (req, res, next) => {
