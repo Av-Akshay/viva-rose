@@ -13,4 +13,38 @@ const jewelleryValues = {
   rating: "3.8",
   reviews: "49",
 };
-export { jewelleryValues };
+
+const addresses = [
+  {
+    id: "ma1",
+    name: "akshay",
+    number: "9870642178",
+    pinCode: "248001",
+    locality: "behat",
+    address: "jaitpur kalan, behat, saharanpur",
+    city: "saharanpur",
+    state: "Uttar Pradesh",
+  },
+  {
+    id: "ma2",
+    name: "akshay",
+    number: "9870642178",
+    pinCode: "248001",
+    locality: "behat",
+    address: "jaitpur kalan, behat, saharanpur",
+    city: "saharanpur",
+    state: "Uttar Pradesh",
+  },
+  {
+    id: "ma3",
+    name: "akshay",
+    number: "9870642178",
+    pinCode: "248001",
+    locality: "behat",
+    address: "jaitpur kalan, behat, saharanpur",
+    city: "saharanpur",
+    state: "Uttar Pradesh",
+  },
+];
+
+export { jewelleryValues, addresses };

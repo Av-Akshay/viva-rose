@@ -28,6 +28,10 @@ import Products from "./productListingComponent/Products";
 import Stars from "../Components/product-details/Stars";
 import AddToCart from "./product-details/AddToCart";
 
+// ------------------- account setting -------------------------
+import AccountForm from "./account-setting/AccountForm";
+import ManageAddress from "./account-setting/ManageAddress";
+
 export {
   Input,
   Heading,
@@ -48,4 +52,6 @@ export {
   Products,
   Stars,
   AddToCart,
+  AccountForm,
+  ManageAddress,
 };

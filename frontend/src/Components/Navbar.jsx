@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { GiShoppingCart } from "react-icons/gi";
 import { IoSearch } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
 
 import { logo } from "../utils/icons";
 
@@ -31,10 +32,52 @@ const Navbar = () => {
           </search>
           <div className="navbar-end w-fit flex items-center justify-end basis-1 shrink max-sm:pr-5 ">
             {!token ? (
-              <ul className="flex items-center gap-3 max-[500px]:gap-[0.15rem]  ">
+              <ul className="flex items-center gap-5 max-[500px]:gap-[0.15rem]  ">
+                {/* <li className="font-poppinsMedium text-white max-sm:text-sm">
+                  <Link to={"/signup"}>Signup</Link>
+                </li> */}
                 <li className="font-poppinsMedium text-white max-sm:text-sm">
-                  <Link to={"/profile"}>Signup</Link>
+                  <div className="dropdown dropdown-hover">
+                    <div tabIndex={0} role="button" className="btn m-1">
+                      <CgProfile className="w-7 h-7" />
+                    </div>
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content !left-[-50%] menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                    >
+                      <li>
+                        <Link
+                          to={"#"}
+                          className="text-black font-poppinsMedium"
+                        >
+                          Account setting
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"#"}
+                          className="text-black font-poppinsMedium"
+                        >
+                          My orders
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"#"}
+                          className="text-black font-poppinsMedium"
+                        >
+                          Logout
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* <Link to={"/profile"}>
+                  
+                    <CgProfile className="w-7 h-7" />{" "}
+                  </Link> */}
                 </li>
+
                 <li className="text-white relative">
                   <Link to={"/cart"}>
                     <GiShoppingCart className="w-8 h-8" />

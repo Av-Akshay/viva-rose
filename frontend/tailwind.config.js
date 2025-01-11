@@ -31,6 +31,7 @@ export default {
         "cart-layout-one": "1.6fr 0.7fr 0.7fr",
         "cart-layout-two": "1.6fr 0.7fr 0.7fr",
         "cart-layout-third": "1.8fr 0.6fr 0.6fr",
+        "account-grid-columns": "0.4fr 1.6fr",
       },
     },
   },

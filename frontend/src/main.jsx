@@ -12,6 +12,7 @@ const CartPage = lazy(() => import("./pages/CartPage.jsx"));
 const Wishlist = lazy(() => import("./pages/Wishlist.jsx"));
 const ListingPage = lazy(() => import("./pages/ProductsListingPage.jsx"));
 const ProductDetailPage = lazy(() => import("./pages/ProductDetail.jsx"));
+const AccountSetting = lazy(() => import("./pages/AccountSetting.jsx"));
 
 const routes = createBrowserRouter([
   {
@@ -71,6 +72,14 @@ const routes = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <ProductDetailPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/account-setting",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <AccountSetting />
           </Suspense>
         ),
       },

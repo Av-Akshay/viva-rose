@@ -14,7 +14,7 @@ const Input = React.forwardRef(function Input(
         ""
       )}
       <input
-        className={`w-full px-5 py-2 outline-none font-poppinsMedium ${className}`}
+        className={`w-full px-5 py-2 outline-none font-poppinsMedium relative ${className}`}
         type={type}
         placeholder={placeholder}
         ref={ref}
