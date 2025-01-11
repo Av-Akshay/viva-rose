@@ -1,4 +1,5 @@
 import React from "react";
+import { FaRegHeart } from "react-icons/fa";
 
 const Cards = ({ pic, name }) => {
   return (
@@ -6,9 +7,13 @@ const Cards = ({ pic, name }) => {
       <div className="w-full overflow-hidden h-52 bg-white ">
         <img className="w-full h-full" src={pic} alt="" />
       </div>
-      <p className="capitalize font-poppinsSemibold text-lightColor text-center">
-        {name}
-      </p>
+      <div className="flex items-center justify-between font-poppinsMedium w-[95%] mx-auto">
+        <div className=" flex flex-col gap-1">
+          <span className="capitalize ">{name}</span>
+          <span> Rs. 9888 </span>
+        </div>
+        <FaRegHeart className="text-red-500" />
+      </div>
     </div>
   );
 };

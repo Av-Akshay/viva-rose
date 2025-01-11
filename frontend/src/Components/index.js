@@ -16,6 +16,18 @@ import ShopByGenderSection from "./landing/ShopByGenderSection";
 import CartProduct from "./cart/CartProduct";
 import TotalAmount from "./cart/TotalAmount";
 
+//-------------------- Wishlist page-----------------------------
+import WishlistProduct from "./wishlist.jsx/WishlistProduct";
+
+//----------------------------- ProductsListingPage--------------------
+import Filters from "./productListingComponent/Filters";
+import ProductsSort from "./productListingComponent/ProductsSort";
+import Products from "./productListingComponent/Products";
+
+// -------------------- product detail page --------------------
+import Stars from "../Components/product-details/Stars";
+import AddToCart from "./product-details/AddToCart";
+
 export {
   Input,
   Heading,
@@ -30,4 +42,10 @@ export {
   ShopByGenderSection,
   CartProduct,
   TotalAmount,
+  WishlistProduct,
+  Filters,
+  ProductsSort,
+  Products,
+  Stars,
+  AddToCart,
 };

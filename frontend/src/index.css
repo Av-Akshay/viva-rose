@@ -36,3 +36,7 @@
     src: url("./assets/fonts/Poppins-Thin.ttf") format("truetype");
   }
 }
+
+.my-scrollbar {
+  scrollbar-width: none; /* For Firefox */
+}

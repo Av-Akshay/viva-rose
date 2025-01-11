@@ -6,11 +6,11 @@ import { jewellery } from "../../utils/icons";
 // import useAmount from "@/hooks/useAmount";
 // import { deleteCartProduct } from "@/store/slice";
 
-const CartProduct = ({ item }) => {
+const CartProduct = () => {
   // const { handelIncrementCartAmount, handelDecrementCartAmount } = useAmount();
   // const dispatch = useDispatch();
   return (
-    <div>
+    <>
       <div className="grid grid-rows-1 grid-cols-cart-layout-one max-lg:grid-cols-cart-layout-two max-md:grid-cols-cart-layout-third py-12">
         <div className="flex items-start gap-10 max-sm:items-center">
           <MdDelete className="text-red-500 w-8 h-8 hover:scale-125 cursor-pointer transition-all relative hover:z-10" />
@@ -54,7 +54,7 @@ const CartProduct = ({ item }) => {
         </div>
       </div>
       <hr className="text-headingColor bg-headingColor h-[2px]" />
-    </div>
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 const { NotFoundError, BadRequestError, ConflictError } = require("../errors/errors");
 const userService = require("./user.service.js");
 const Product = require("../models/product.model.js");
-const {uploadImages, uploadImage} = require('../utils/image.upload.util.js');
+const {uploadImages} = require('../utils/image.upload.util.js');
 
 const createProduct = async (userId, productData, files) => {
     var productCodeString='VRSJ';
