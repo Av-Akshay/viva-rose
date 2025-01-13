@@ -71,6 +71,7 @@ const orders = [
     price: "10999",
     status: "delivered",
     tagline: "Your item has been delivered",
+    date: "Jan 13, 2024",
   },
 ];
 

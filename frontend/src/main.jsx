@@ -14,6 +14,7 @@ const ListingPage = lazy(() => import("./pages/ProductsListingPage.jsx"));
 const ProductDetailPage = lazy(() => import("./pages/ProductDetail.jsx"));
 const AccountSetting = lazy(() => import("./pages/AccountSetting.jsx"));
 const MyOrders = lazy(() => import("./pages/MyOrders.jsx"));
+const RatingForm = lazy(() => import("./pages/RatingForm.jsx"));
 
 const routes = createBrowserRouter([
   {
@@ -89,6 +90,14 @@ const routes = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <MyOrders />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/ratings",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <RatingForm />
           </Suspense>
         ),
       },
