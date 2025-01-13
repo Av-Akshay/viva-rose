@@ -47,4 +47,31 @@ const addresses = [
   },
 ];
 
-export { jewelleryValues, addresses };
+const orders = [
+  {
+    id: "order1",
+    name: " Women Ring",
+    color: "silver shiny",
+    price: "2999",
+    status: "delivered",
+    tagline: "Your item has been delivered",
+  },
+  {
+    id: "order2",
+    name: " Women set",
+    color: "silver shiny",
+    price: "10999",
+    status: "delivered",
+    tagline: "Your item has been delivered",
+  },
+  {
+    id: "order3",
+    name: " Women nickles",
+    color: "silver shiny",
+    price: "10999",
+    status: "delivered",
+    tagline: "Your item has been delivered",
+  },
+];
+
+export { jewelleryValues, addresses, orders };
