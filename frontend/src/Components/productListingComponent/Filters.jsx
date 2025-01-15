@@ -15,8 +15,7 @@ const Filters = () => {
           <option disabled selected>
             Pick your favorite Jewellery
           </option>
-          <option>Neckless</option>
-          <option>Rings</option>
+          <option> Necklace </option>
           <option>Rings</option>
           <option>Pendents</option>
           <option>Ear-rings</option>

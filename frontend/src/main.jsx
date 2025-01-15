@@ -15,6 +15,7 @@ const ProductDetailPage = lazy(() => import("./pages/ProductDetail.jsx"));
 const AccountSetting = lazy(() => import("./pages/AccountSetting.jsx"));
 const MyOrders = lazy(() => import("./pages/MyOrders.jsx"));
 const RatingForm = lazy(() => import("./pages/RatingForm.jsx"));
+const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
 
 const routes = createBrowserRouter([
   {
@@ -98,6 +99,14 @@ const routes = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <RatingForm />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/admin/dashboard",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Dashboard />
           </Suspense>
         ),
       },

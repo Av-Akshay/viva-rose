@@ -12,6 +12,10 @@
     src: url("./assets/fonts/Poppins-Bold.ttf") format("truetype");
   }
   @font-face {
+    font-family: "poppinsBoldItalic";
+    src: url("./assets/fonts/Poppins-BoldItalic.ttf") format("truetype");
+  }
+  @font-face {
     font-family: "poppinsSemibold";
     src: url("./assets/fonts/Poppins-SemiBold.ttf") format("truetype");
   }

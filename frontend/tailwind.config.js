@@ -13,6 +13,7 @@ export default {
         poppinsExtraLight: ["poppinsExtraLight"],
         poppinsRegular: ["poppinsRegular"],
         poppinsThin: ["poppinsThin"],
+        poppinsBoldItalic: ["poppinsBoldItalic"],
       },
       boxShadow: {
         cardShadow: " 5px 5px 5px #CECECE",

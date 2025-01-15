@@ -32,6 +32,12 @@ import AddToCart from "./product-details/AddToCart";
 import AccountForm from "./account-setting/AccountForm";
 import ManageAddress from "./account-setting/ManageAddress";
 
+// ------------------- admin dashboard -----------------------------
+import CategoryRadioButton from "./Amin-dashboard/dashboard/CategoryRadioButton";
+import OrderCard from "./Amin-dashboard/dashboard/OrderCard";
+import DashboardLineChart from "./Amin-dashboard/dashboard/DashboardLineChart";
+import DashboardBarChart from "./Amin-dashboard/dashboard/DashboardBarChart";
+
 export {
   Input,
   Heading,
@@ -54,4 +60,8 @@ export {
   AddToCart,
   AccountForm,
   ManageAddress,
+  CategoryRadioButton,
+  OrderCard,
+  DashboardLineChart,
+  DashboardBarChart,
 };
