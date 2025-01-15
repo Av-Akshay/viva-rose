@@ -4,7 +4,7 @@ const Cart = require("../models/cart.model.js");
 // Get cart by userId
 const getCartByUserId = async (userId) => {
 
-        const cart = await Cart.findOne({ userId }).populate("items.productId");
+        const cart = await Cart.findOne({ userId }).populate("items.jewelleryId");
         if (!cart){
             throw new BadRequestError("Cart not found");
         }
@@ -14,19 +14,19 @@ const getCartByUserId = async (userId) => {
 // Add item to cart
 const addItemToCart = async (userId, itemData) => {
 
-        const productId= itemData.productId;
+        const jewelleryId= itemData.jewelleryId;
         const quantity=itemData.quantity;
         const cart = await Cart.findOne({ userId });
         if (!cart) {
             cart = new Cart();
             cart.userId=userId;
-            cart.items= [{ productId, quantity }];
+            cart.items= [{ jewelleryId, quantity }];
         } else {
-            const itemIndex = cart.items.findIndex((item) => item.productId.toString() === productId);
+            const itemIndex = cart.items.findIndex((item) => item.jewelleryId.toString() === jewelleryId);
             if (itemIndex > -1) {
                 cart.items[itemIndex].quantity += quantity;
             } else {
-                cart.items.push({ productId, quantity });
+                cart.items.push({ jewelleryId, quantity });
             }
         }
         await cart.save();    
@@ -34,13 +34,13 @@ const addItemToCart = async (userId, itemData) => {
 
 // Update item quantity in cart
 const updateCartItem = async (userId, itemData) => {
-        const {productId, quantity } = itemData;
+        const {jewelleryId, quantity } = itemData;
 
         const cart = await Cart.findOne({ userId });
         if (!cart){
             throw new BadRequestError("Cart not found");
         }
-        const itemIndex = cart.items.findIndex((item) => item.productId.toString() === productId);
+        const itemIndex = cart.items.findIndex((item) => item.jewelleryId.toString() === jewelleryId);
         if (itemIndex > -1) {
             cart.items[itemIndex].quantity = quantity;
             if (quantity === 0) cart.items.splice(itemIndex, 1); // Remove item if quantity is 0
@@ -53,13 +53,13 @@ const updateCartItem = async (userId, itemData) => {
 };
 
 // Remove item from cart
-const removeCartItem = async (userId, productId) => {
+const removeCartItem = async (userId, jewelleryId) => {
         const cart = await Cart.findOne({ userId });
         if (!cart){
             throw new BadRequestError("Cart not found");
         }
 
-        cart.items = cart.items.filter((item) => item.productId.toString() !== productId);
+        cart.items = cart.items.filter((item) => item.jewelleryId.toString() !== jewelleryId);
 
         await cart.save();
         return cart;

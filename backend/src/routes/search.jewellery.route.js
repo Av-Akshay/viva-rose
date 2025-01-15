@@ -1,24 +1,24 @@
 const express = require("express");
-const productController = require("../controllers/product.controller.js");
+const jewelleryController = require("../controllers/jewellery.controller.js");
 const router = express.Router();
 
 /**
  * @swagger
- * /jewellery:
+ * /search/jewellery:
  *   get:
- *     summary: Search for products
- *     tags: [Products]
+ *     summary: Search for jewellerys
+ *     tags: [Jewellery]
  *     parameters:
  *       - in: query
- *         name: productCode
+ *         name: jewelleryCode
  *         schema:
  *           type: string
  *       - in: query
- *         name: productName
+ *         name: jewelleryName
  *         schema:
  *           type: string
  *       - in: query
- *         name: productType
+ *         name: jewelleryType
  *         schema:
  *           type: string
  *           enum: ['necklaces','pendents','rings','earings','bracelets','anklets','toe rings','religious jewellery']
@@ -53,10 +53,10 @@ const router = express.Router();
  *         description: Order of sorting (asc for ascending, desc for descending)
  *     responses:
  *       200:
- *         description: List of products matching the criteria
+ *         description: List of jewellerys matching the criteria
  *       404:
- *         description: No products found
+ *         description: No jewellerys found
  */
-router.get("/", productController.searchProducts);
+router.get("/", jewelleryController.searchJewellery);
 
 module.exports = router;

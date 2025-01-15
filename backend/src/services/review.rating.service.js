@@ -1,34 +1,37 @@
 const { NotFoundError } = require("../errors/errors");
 const ReviewRating = require("../models/review.rating.model");
-const Product = require("../models/product.model.js");
-const {uploadImages, uploadImage} = require('../utils/upload.image.service.js');
+const Jewellery = require("../models/jewellery.model.js");
+const {uploadImages, uploadImage} = require('../utils/image.upload.util.js');
+const User = require('../models/user.model.js');
 
-const createReview = async (userId, productId, reviewData) => {
-    const product = await Product.findById({ productId });
-    if(!product){
-        throw new NotFoundError("Product not found");
+const createReview = async (userId, jewelleryId, reviewData, files) => {
+    const jewellery = await Jewellery.findById(jewelleryId);
+    if(!jewellery){
+        throw new NotFoundError("Jewellery not found");
     }
-    const imageURLs = await uploadImages(file);
     const reviewRating = new ReviewRating();
-    reviewRating.productId= productId;
+    reviewRating.jewelleryId= jewelleryId;
     reviewRating.userId=userId;
     reviewRating.rating=reviewData.rating;
     reviewRating.reviewText=reviewData.reviewText;
-    reviewRating.reviewImages=imageURLs;
-
+    if(files){
+        const imageURLs = await uploadImages(files);
+        reviewRating.reviewImages=imageURLs;
+    }
+    
     await reviewRating.save();
-    product.ratingReview.push(reviewRating._id);
-    await user.save();
+    jewellery.ratingReview.push(reviewRating._id);
+    await jewellery.save();
     return reviewRating;
 };
 
-const getReviewsByProduct = async (productId) => {
-    const product = await Product.findById(productId);
-    if(!product){
-        throw new NotFoundError("Product not found");
+const getReviewsByJewellery = async (jewelleryId) => {
+    const jewellery = await Jewellery.findById(jewelleryId);
+    if(!jewellery){
+        throw new NotFoundError("Jewellery not found");
     }
 
-    const reviews = await ReviewRating.find(productId).populate("userId", "name").populate("productCode", "name");
+    const reviews = await ReviewRating.find(jewelleryId).populate("userId").populate("jewelleryId");
     if(!reviews){
         throw new NotFoundError("Reviews not found");
     }
@@ -54,22 +57,33 @@ const updateReview = async (userId, reviewId, reviewData) => {
     if (user.role === 'Admin' || review.userId === user._id) {
         throw new BadRequestError('Only admins and review creator can update reviews');
     }
-    const imageURLs = await uploadImages(file);
-    reviewData.reviewImages=imageURLs;
+
+    if(reviewData.reviewText){
+        review.reviewText=reviewData.reviewText;
+    }
+    if(reviewData.rating){
+        review.rating=reviewData.rating;
+    }
+    if(files){
+        const imageURLs = await uploadImages(files);
+        review.reviewImages=imageURLs;
+    }
+    await review.save();
 
     return await ReviewRating.findByIdAndUpdate(reviewId, reviewData, { new: true });
 };
 
 const deleteReview = async (userId, reviewId) => {
-    const review = await ReviewRating.findById({ reviewId });
+    const review = await ReviewRating.findById(reviewId);
     if(!review){
         throw new NotFoundError("Review not found");
     }
-    const product= review.productId;
-    if(!product){
-        throw new NotFoundError("Product not found");
+    const jewellery= await Jewellery.findById(review.jewelleryId);
+    console.log(jewellery.reviews);
+    if(!jewellery){
+        throw new NotFoundError("Jewellery not found");
     }
-    const user= await userService.getUserById(userId);
+    const user= await User.findById(userId);
     // Ensure the user has the 'admin' role
     if (user.role === 'Admin' || review.userId === user._id) {
         throw new BadRequestError('Only admins and review creator can update reviews');
@@ -77,17 +91,17 @@ const deleteReview = async (userId, reviewId) => {
 
     await ReviewRating.findByIdAndDelete(reviewId);
     
-    product.reviewRating = product.reviewRating.filter(
+    jewellery.reviews = jewellery.reviews.filter(
         (id) => id.toString() !== reviewId.toString()
     );
-    await product.save();
-    
+    await jewellery.save();
+    console.log(jewellery);
     return review;
 };
 
 module.exports = {
     createReview,
-    getReviewsByProduct,
+    getReviewsByJewellery,
     getReviewById,
     updateReview,
     deleteReview,

@@ -4,7 +4,7 @@ const logger = require("../configs/winston.config.js");
 // Create a new contact form
 const createReviewRating = async (req, res, next) => {
   try {
-    const reviewRating = await ReviewRatingService.createReview(req.body.productId, req.user.id, req.body);
+    const reviewRating = await ReviewRatingService.createReview( req.user.id, req.body.jewelleryId, req.body);
     res.status(201).json({
       data: reviewRating,
     });
@@ -16,7 +16,7 @@ const createReviewRating = async (req, res, next) => {
 // Get all users
 const getReviewById = async (req, res, next) => {
   try {
-    const reviewRating = await ReviewRatingService.getReviewById(req.body.reviewId);
+    const reviewRating = await ReviewRatingService.getReviewById(req.params.id);
     res.status(200).json({
       success: true,
       data: reviewRating,
@@ -27,9 +27,9 @@ const getReviewById = async (req, res, next) => {
 };
 
 // Get user by ID
-const getReviewsByProduct = async (req, res, next) => {
+const getReviewsByJewellery = async (req, res, next) => {
   try {
-    const reviewRating = await ReviewRatingService.getReviewsByProduct(req.body.productId);
+    const reviewRating = await ReviewRatingService.getReviewsByJewellery(req.body.jewelleryId);
     res.status(200).json({
       success: true,
       data: reviewRating,
@@ -43,9 +43,6 @@ const getReviewsByProduct = async (req, res, next) => {
 const updateReview = async (req, res, next) => {
   try {
     const updatedReviewRating = await ReviewRatingService.updateReview(req.user.id, req.body.reviewId, req.body);
-    logger.info(
-      "Review id:" + `${updatedReviewRating._id}` + " has been updated successfully"
-    );
     res.status(200).json({
       success: true,
       data: updatedReviewRating,
@@ -59,14 +56,11 @@ const updateReview = async (req, res, next) => {
 // Delete user by ID
 const deleteReview = async (req, res, next) => {
   try {
-    await ReviewRatingService.deleteReview(req.user.id, req.body.reviewId);
-    logger.info(
-      "Review id:" + `${reviewId}` + " has been deleted successfully"
-    );
-    res.status(200).json({ message: "Review deleted successfully" });
+    const review= await ReviewRatingService.deleteReview(req.user.id, req.body.reviewId);
+    res.status(200).json({ message: "Review deleted successfully", review });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports= {createReviewRating, getReviewById, getReviewsByProduct, updateReview, deleteReview};
+module.exports= {createReviewRating, getReviewById, getReviewsByJewellery, updateReview, deleteReview};

@@ -28,4 +28,17 @@ const uploadPic = multer({
   },
 }).single('profilePicture', 1);
 
-module.exports = {upload,uploadPic};
+const uploadReviewImage = multer({
+  limits: {
+    fileSize: 5 * 1024 * 1024, // Max file size 5MB
+  },
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
+      return cb(new Error('Only images are allowed!'));
+    }
+    cb(null, true);
+  },
+}).array('reviewImages', 5);
+
+module.exports = {upload,uploadPic, uploadReviewImage};

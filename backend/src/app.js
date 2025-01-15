@@ -14,8 +14,8 @@ require("dotenv").config();
 
 const userRoutes = require("./routes/user.route.js");
 const authRoutes = require("./routes/user.login.route.js");
-const productRoutes = require("./routes/product.route.js");
-const searchProductsRoutes= require("./routes/search.product.route.js");
+const jewelleryRoutes = require("./routes/jewellery.route.js");
+const searchJewelleryRoutes= require("./routes/search.jewellery.route.js");
 const reviewRatingRoutes = require("./routes/review.rating.route.js");
 const wishlistRoutes = require("./routes/wishlist.route.js");
 const orderRoutes = require("./routes/order.route.js");
@@ -81,8 +81,9 @@ app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/users",userRoutes);
 app.use("/api/auth",authRoutes);
 app.use("/api/wishlist",wishlistRoutes);
-app.use("/api/products",productRoutes);
-app.use("/api/jewellery",searchProductsRoutes);
+app.use("/api/jewellery",jewelleryRoutes);
+app.use("/api/search/jewellery",searchJewelleryRoutes);
+app.use("/api/reviews",reviewRatingRoutes);
 
 app.use(errorHandler);
 

@@ -1,5 +1,5 @@
 const express = require("express");
-const productController = require("../controllers/product.controller.js");
+const jewelleryController = require("../controllers/jewellery.controller.js");
 const auth = require("../middlewares/auth.js");
 const {upload} =require("../middlewares/multer.js");
 const router = express.Router();
@@ -7,16 +7,16 @@ const router = express.Router();
 /**
  * @swagger
  * tags:
- *   name: Products
- *   description: Product management and operations
+ *   name: Jewellery
+ *   description: Jewellery management and operations
  */
 
 /**
  * @swagger
- * /products/add:
+ * /jewellery/add:
  *   post:
- *     summary: Create a new product
- *     tags: [Products]
+ *     summary: Create a new jewellery
+ *     tags: [Jewellery]
  *     requestBody:
  *       required: true
  *       content:
@@ -24,11 +24,11 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               productName:
+ *               jewelleryName:
  *                 type: string
  *               genderCategory:
  *                 type: string
- *               productType:
+ *               jewelleryType:
  *                 type: string
  *                 enum: ['necklaces','pendents','rings','earings','bracelets','anklets','toe rings','religious jewellery']
  *               colour:
@@ -52,21 +52,21 @@ const router = express.Router();
  *                 description: Images of the property (up to 10 images).
  *     responses:
  *       201:
- *         description: Product created successfully
+ *         description: Jewellery created successfully
  *       400:
  *         description: Bad request
  *       500:
  *         description: Internal Server Error
  */
-router.post("/add", upload, auth, productController.createProduct);
+router.post("/add", upload, auth, jewelleryController.createJewellery);
 
 
 /**
  * @swagger
- * /products/{id}:
+ * /jewellery/{id}:
  *   get:
- *     summary: Get a product by its ID
- *     tags: [Products]
+ *     summary: Get a jewellery by its ID
+ *     tags: [Jewellery]
  *     parameters:
  *       - in: path
  *         name: id
@@ -75,18 +75,18 @@ router.post("/add", upload, auth, productController.createProduct);
  *           type: string
  *     responses:
  *       200:
- *         description: Product data
+ *         description: Jewellery data
  *       404:
- *         description: Product not found
+ *         description: Jewellery not found
  */
-router.get("/:id", productController.getProductById);
+router.get("/:id", jewelleryController.getJewelleryById);
 
 /**
  * @swagger
- * /products/{id}:
+ * /jewellery/{id}:
  *   put:
- *     summary: Update a product by its ID
- *     tags: [Products]
+ *     summary: Update a jewellery by its ID
+ *     tags: [Jewellery]
  *     parameters:
  *       - in: path
  *         name: id
@@ -100,13 +100,13 @@ router.get("/:id", productController.getProductById);
  *           schema:
  *             type: object
  *             properties:
- *               productName:
+ *               jewelleryName:
  *                 type: string
  *               material:
  *                 type: string
  *               genderCategory:
  *                 type: string
- *               productType:
+ *               jewelleryType:
  *                 type: string
  *               materialWeight:
  *                 type: number
@@ -127,18 +127,18 @@ router.get("/:id", productController.getProductById);
  *                 description: Images of the property (up to 10 images).
  *     responses:
  *       200:
- *         description: Product updated successfully
+ *         description: Jewellery updated successfully
  *       404:
- *         description: Product not found
+ *         description: Jewellery not found
  */
-router.put("/:id", upload, auth, productController.updateProduct);
+router.put("/:id", upload, auth, jewelleryController.updateJewellery);
 
 /**
  * @swagger
- * /products/{id}:
+ * /jewellery/{id}:
  *   delete:
- *     summary: Delete a product by its ID
- *     tags: [Products]
+ *     summary: Delete a jewellery by its ID
+ *     tags: [Jewellery]
  *     parameters:
  *       - in: path
  *         name: id
@@ -147,10 +147,10 @@ router.put("/:id", upload, auth, productController.updateProduct);
  *           type: string
  *     responses:
  *       200:
- *         description: Product deleted successfully
+ *         description: Jewellery deleted successfully
  *       404:
- *         description: Product not found
+ *         description: Jewellery not found
  */
-router.delete("/:id", auth, productController.deleteProduct);
+router.delete("/:id", auth, jewelleryController.deleteJewellery);
 
 module.exports = router;

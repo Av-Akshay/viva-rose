@@ -1,27 +1,20 @@
-const productService = require("../services/product.service.js");
+const addressService = require("../services/address.service.js");
 const logger = require("../configs/winston.config.js");
 
 // Controller for creating a new Property
-const createProduct = async (req, res, next) => {
+const createAddress = async (req, res, next) => {
   try {
-    const userId = req.user.id;
-    const propertyData = req.body;
-    const files = req.files;
-    const product = await productService.createProduct(
-      userId,
-      propertyData,
-      files
-    );
+    const address = await addressService.createAddress(req.user.id, req.body);
     logger.info(
       "User ID:" +
         `${userId}` +
-        " has posted Product ID:" +
-        `${product._id}` +
+        " has add Address ID:" +
+        `${address._id}` +
         " successfully"
     );
     res.status(201).json({
       success: true,
-      data: product,
+      data: address,
     });
   } catch (error) {
     //console.log(error);
@@ -29,14 +22,14 @@ const createProduct = async (req, res, next) => {
   }
 };
 
-const getProductById= async(req, res, next) =>{
+const getAddressById= async(req, res, next) =>{
     try{
-        const productId=req.params.id;
-        const product= await productService.getProductById(productId);
-        console.log(product);
+        const addressId=req.params.id;
+        const address= await addressService.getAddressById(addressId);
+        //console.log(product);
         res.status(200).json({
             success: true,
-            data: product,
+            data: address,
           });
     }
     catch(error){
@@ -44,24 +37,12 @@ const getProductById= async(req, res, next) =>{
     }
 }
 
-const searchProducts= async(req, res, next) =>{
+const getAllAddresses= async(req, res, next) =>{
     try{
-        const filters = {
-            productCode: req.query.productCode,
-            productName: req.query.productName,
-            productType: req.query.productType,
-            material: req.query.material,
-            colour: req.query.colour,
-            availability: req.query.availability,
-          };
-      
-          // Access sorting parameters from the query
-          const sortBy = req.query.sortBy; // price or dateListed
-          const sortOrder = req.query.sortOrder === "desc" ? -1 : 1; // 'desc' for descending, 'asc' or default for ascending
-        const product= await productService.searchProducts(filters, sortBy, sortOrder);
+        const addresses= await addressService.getAllAddresses();
         res.status(200).json({
             success: true,
-            data: product,
+            data: addresses,
           });
     }
     catch(error){
@@ -71,15 +52,17 @@ const searchProducts= async(req, res, next) =>{
 };
 
 // Update user by ID
-const updateProduct = async (req, res, next) => {
+const updateAddress = async (req, res, next) => {
     try {
-      const updatedProduct = await productService.updateProduct(req.user.id, req.params.id, req.body, req.files);
+      const updatedAddress = await addressService.updateAddress(req.user.id, req.params.id, req.body);
       logger.info(
-        "Product id:" + `${updatedProduct._id}` + " has been updated successfully"
+        "User ID:" +
+        `${userId}` +
+        " has updated Address ID:" + `${updatedAddress._id}` +" successfully"
       );
       res.status(200).json({
         success: true,
-        data: updatedProduct,
+        data: updatedAddress,
       });
     } catch (error) {
       //console.log(error);
@@ -88,16 +71,18 @@ const updateProduct = async (req, res, next) => {
   };
   
   // Delete user by ID
-  const deleteProduct = async (req, res, next) => {
+  const deleteAddress = async (req, res, next) => {
     try {
-      const product = await productService.deleteProduct(req.user.id, req.params.id);
+      const address = await addressService.deleteAddress(req.user.id, req.params.id);
       logger.info(
-        "Product id:" + `${req.params.id}` + " has been deleted successfully"
+        "User ID:" +
+        `${req.user.id}` +
+        " has deleted Address ID:" + `${address._id}` +" successfully"
       );
-      res.status(200).json({ message: "Product deleted successfully", product });
+      res.status(200).json({ message: "Address deleted successfully", address });
     } catch (error) {
       next(error);
     }
   };
 
-module.exports ={createProduct, getProductById, searchProducts, updateProduct, deleteProduct};
+module.exports ={createAddress, getAddressById, getAllAddresses, updateAddress, deleteAddress};

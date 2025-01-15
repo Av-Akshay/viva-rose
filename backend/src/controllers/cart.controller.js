@@ -37,7 +37,7 @@ const updateCartItem = async (req, res, next) => {
 // Remove item from cart
 const removeCartItem = async (req, res, next) => {
     try {
-        const cart = await cartService.updateCartItem(req.user.id, req.body.productId);
+        const cart = await cartService.updateCartItem(req.user.id, req.body.jewelleryId);
         res.status(200).json({success: true,
             data: cart});
     } catch (error) {

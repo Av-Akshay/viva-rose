@@ -7,8 +7,8 @@ const auth = require("../middlewares/auth.js");
  * @swagger
  * /wishlist:
  *   get:
- *     summary: Wishlist Products
- *     description: Retrieve a list of products
+ *     summary: Wishlist Jewellerys
+ *     description: Retrieve a list of jewellerys
  *     tags:
  *       - Users
  *     responses:
@@ -17,14 +17,14 @@ const auth = require("../middlewares/auth.js");
  *       404:
  *         description: No properties found matching the criteria
  */
-router.get('/',auth, userController.wishlistProduct);
+router.get('/', auth, userController.wishlistJewellery);
 
 /**
  * @swagger
- * /wishlist/add-product:
+ * /wishlist/add-jewellery:
  *   post:
- *     summary: Add a product to user's wishlist
- *     description: Adds a product to the user's wishlist list
+ *     summary: Add a jewellery to user's wishlist
+ *     description: Adds a jewellery to the user's wishlist list
  *     tags:
  *       - Users
  *     requestBody:
@@ -34,25 +34,25 @@ router.get('/',auth, userController.wishlistProduct);
  *           schema:
  *             type: object
  *             properties:
- *               productId:
+ *               jewelleryId:
  *                 type: string
- *                 description: ProductId
+ *                 description: JewelleryId
  *     responses:
  *       200:
- *         description: Product added to wishlist successfully
+ *         description: Jewellery added to wishlist successfully
  *       404:
- *         description: User or Product not found
+ *         description: User or Jewellery not found
  *       500:
  *         description: Internal server error
  */
-router.post('/add-product', auth, userController.addWishlistProduct);
+router.post('/add-jewellery', auth, userController.addWishlistJewellery);
 
 /**
  * @swagger
- * /wishlist/remove-product:
+ * /wishlist/remove-jewellery:
  *   delete:
- *     summary: Remove a product from user's wishlist
- *     description: Removes a product from the user's wishlist
+ *     summary: Remove a jewellery from user's wishlist
+ *     description: Removes a jewellery from the user's wishlist
  *     tags:
  *       - Users
  *     requestBody:
@@ -62,18 +62,18 @@ router.post('/add-product', auth, userController.addWishlistProduct);
  *           schema:
  *             type: object
  *             properties:
- *               productId:
+ *               jewelleryId:
  *                 type: string
- *                 description: ProductId
+ *                 description: JewelleryId
  *     responses:
  *       200:
- *         description: Product removed from wishlist successfully
+ *         description: Jewellery removed from wishlist successfully
  *       404:
- *         description: User or Product not found
+ *         description: User or Jewellery not found
  *       500:
  *         description: Internal server error
  */
-router.delete('/remove-product',auth, userController.removeWishlistProduct);
+router.delete('/remove-jewellery',auth, userController.removeWishlistJewellery);
 
 module.exports = router;
 

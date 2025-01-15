@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const ratingReviewSchema = new mongoose.Schema({
+const reviewSchema = new mongoose.Schema({
     productId: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Jewelry',  // Reference to the jewelry item being reviewed
+        ref: 'Product',  // Reference to the jewelry item being reviewed
         required: true 
     },
     userId: { 
@@ -34,10 +34,10 @@ const ratingReviewSchema = new mongoose.Schema({
     }
 });
 
-ratingReviewSchema.pre('save', function (next) {
+reviewSchema.pre('save', function (next) {
     this.updatedAt = Date.now();
     next();
 });
 
-const ReviewRating= mongoose.model("ReviewRating", ratingReviewSchema);
-module.exports= ReviewRating;
+const Review= mongoose.model("Review", reviewSchema);
+module.exports= Review;

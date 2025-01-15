@@ -16,7 +16,7 @@ const razorpay = new Razorpay({
 
 // Create an order from the cart
 const createOrder = async (userId) => {
-        const cart = await Cart.findOne({ userId }).populate("items.productId");
+        const cart = await Cart.findOne({ userId }).populate("items.jewelleryId");
         if (!cart || cart.items.length === 0) {
             throw new BadRequestError("Cart is empty");
         }
@@ -24,7 +24,7 @@ const createOrder = async (userId) => {
             const validItems=[];
             console.log(cart.items);
             for(item in cart.items){
-                if(item.productId.stockStatus==='in-stock'){
+                if(item.jewelleryId.stockStatus==='in-stock'){
                     validItems.push(item) ;
             }
         }
@@ -33,7 +33,7 @@ const createOrder = async (userId) => {
 
         // Calculate total amount
         const totalAmount = validItems.reduce((sum, item) => {
-            return sum + item.productId.price * item.quantity;
+            return sum + item.jewelleryId.price * item.quantity;
         }, 0);
 
         // Create an order
@@ -93,12 +93,12 @@ const verifyPayment = async (razorpay_order_id, razorpay_payment_id, razorpay_si
 
         order.paymentStatus = "Paid";
         await order.save();
-        const product=order.productId;
-        if(!product){
-            throw new NotFoundError("Product not found");
+        const jewellery=order.jewelleryId;
+        if(!jewellery){
+            throw new NotFoundError("Jewellery not found");
         }
-        product.orders.push(order._id);
-        await product.save();
+        jewellery.orders.push(order._id);
+        await jewellery.save();
 
         return { message: "Payment successful", order };
 };
@@ -111,7 +111,7 @@ const getOrdersByUserId = async (userId) => {
 
 // Get a single order by ID
 const getOrderById = async (orderId) => {
-        const order = await Order.findById(orderId).populate("items.productId");
+        const order = await Order.findById(orderId).populate("items.jewelleryId");
         if (!order){
             throw new NotFoundError("Order not found");
         } 

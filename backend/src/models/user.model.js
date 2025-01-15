@@ -7,22 +7,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6,
   },
-  address: {
+  address: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Address"
-  },
-  address1: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Address"
-  },
-  address2: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Address"
-  },
-  address3: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Address"
-  },
+  }],
   isVerified: { type: Boolean, default: false},
   role: {type: String, enum: ["User","Agent","Admin"], default: 'User'},
   phone: { type: String, minlength: 12, maxlength: 12},
@@ -34,7 +22,7 @@ const userSchema = new mongoose.Schema({
   },
   wishlist: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
+    ref: "Jewellery",
   }],
   orders: [{ 
     type: mongoose.Schema.Types.ObjectId, 
@@ -43,7 +31,7 @@ const userSchema = new mongoose.Schema({
   profilePic: { type: String},
   reviewRating: [{ 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: "ReviewRating" 
+    ref: "Review" 
   }],
   cart:{
     type:mongoose.Schema.Types.ObjectId, 

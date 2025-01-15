@@ -1,5 +1,5 @@
 const User = require("../models/user.model.js");
-const Product= require("../models/product.model.js");
+const Jewellery= require("../models/jewellery.model.js");
 const {
   ConflictError,
   NotFoundError,
@@ -153,22 +153,20 @@ const orders = async (userId) => {
   return User.orders;
 };
 
-const wishlistProduct = async(userId) =>{
-    const user = await User.findById(userId)
-    .populate("wishlist")
-    .exec();
+const wishlistJewellery = async(userId) =>{
+    const user = await User.findById(userId).populate("wishlist").exec();
 
     if(user.wishlist.length=='0'){
-        throw new NotFoundError("No products found");
+        throw new NotFoundError("No jewellerys found");
     }
     return user.wishlist;
 }
 
 // Add a property to favorites
-const addWishlistProduct = async (userId, productId) => {
-    const wishlistProduct = await Product.findById(productId);
-    if (!wishlistProduct) {
-      throw new NotFoundError('Product not found');
+const addWishlistJewellery = async (userId, jewelleryId) => {
+    const wishlistJewellery = await Jewellery.findById(jewelleryId);
+    if (!wishlistJewellery) {
+      throw new NotFoundError('Jewellery not found');
     }
   
     const user = await User.findById(userId);
@@ -176,22 +174,22 @@ const addWishlistProduct = async (userId, productId) => {
       throw new NotFoundError('User not found');
     }
   
-    // Check if the Product already exists in favorites
-    if (user.wishlist.includes(productId)) {
-      return { message: 'Product already in wishlist' };
+    // Check if the Jewellery already exists in favorites
+    if (user.wishlist.includes(jewelleryId)) {
+      return { message: 'Jewellery already in wishlist' };
     }
   
-    user.wishlist.push(productId);
+    user.wishlist.push(jewelleryId);
     await user.save();
     
-    return wishlistProduct;
+    return wishlistJewellery;
   };
   
-  // Remove a Product from favorites
-  const removeWishlistProduct = async (userId, productId) => {
-    const wishlistProduct = await Product.findById(productId);
-    if (!wishlistProduct) {
-      throw new NotFoundError('Product not found');
+  // Remove a Jewellery from favorites
+  const removeWishlistJewellery = async (userId, jewelleryId) => {
+    const wishlistJewellery = await Jewellery.findById(jewelleryId);
+    if (!wishlistJewellery) {
+      throw new NotFoundError('Jewellery not found');
     }
   
     const user = await User.findById(userId);
@@ -199,18 +197,18 @@ const addWishlistProduct = async (userId, productId) => {
       throw new NotFoundError('User not found');
     }
   
-    // Check if the Product is not in favorites
-    if (!user.wishlist.includes(productId)) {
-      return { message: 'Product not in wishlist' };
+    // Check if the Jewellery is not in favorites
+    if (!user.wishlist.includes(jewelleryId)) {
+      return { message: 'Jewellery not in wishlist' };
     }
   
-    // Filter out the Product from favoriteProperties
+    // Filter out the Jewellery from favoriteProperties
     user.wishlist = user.wishlist.filter(
-      (id) => id.toString() !== productId.toString()
+      (id) => id.toString() !== jewelleryId.toString()
     );
     await user.save();
   
-    return wishlistProduct;
+    return wishlistJewellery;
   };
 
 
@@ -223,7 +221,7 @@ module.exports = {
   changePassword,
   resetPassword,
   orders,
-  wishlistProduct,
-  addWishlistProduct,
-  removeWishlistProduct
+  wishlistJewellery,
+  addWishlistJewellery,
+  removeWishlistJewellery
 };

@@ -118,9 +118,9 @@ const orders = async (req, res, next) => {
   }
 };
 
-const wishlistProduct = async (req, res, next) => {
+const wishlistJewellery = async (req, res, next) => {
   try {
-    const wishlist = await userService.wishlistProduct(req.user.id);
+    const wishlist = await userService.wishlistJewellery(req.user.id);
     res.status(200).json({
       success: true,
       data: wishlist,
@@ -131,15 +131,15 @@ const wishlistProduct = async (req, res, next) => {
 };
 
 // Add a property to favorites
-const addWishlistProduct = async (req, res, next) => {
+const addWishlistJewellery = async (req, res, next) => {
     try {
-      const wishlistProduct = await userService.addWishlistProduct(
+      const wishlistJewellery = await userService.addWishlistJewellery(
         req.user.id,
-        req.body.productId
+        req.body.jewelleryId
       );
       res.status(200).json({
         success: true,
-        data: wishlistProduct,
+        data: wishlistJewellery,
       });
     } catch (error) {
       //console.log(error);
@@ -148,15 +148,15 @@ const addWishlistProduct = async (req, res, next) => {
   };
   
   // Remove a property from favorites
-  const removeWishlistProduct = async (req, res, next) => {
+  const removeWishlistJewellery = async (req, res, next) => {
     try {
-      const wishlistProduct = await userService.removeWishlistProduct(
+      const wishlistJewellery = await userService.removeWishlistJewellery(
         req.user.id,
-        req.body.productId
+        req.body.jewelleryId
       );
       res.status(200).json({
         success: true,
-        data: wishlistProduct,
+        data: wishlistJewellery,
       });
     } catch (error) {
       //console.log(error);
@@ -170,10 +170,10 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
-  addWishlistProduct,
-  removeWishlistProduct,
+  addWishlistJewellery,
+  removeWishlistJewellery,
   changePassword,
   resetPassword,
   orders,
-  wishlistProduct
+  wishlistJewellery
 };
