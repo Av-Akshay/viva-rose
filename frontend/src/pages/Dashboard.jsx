@@ -12,6 +12,7 @@ import {
   DashboardLineChart,
   OrderCard,
   DashboardBarChart,
+  DashboardAllProducts,
 } from "../Components";
 
 const Dashboard = () => {
@@ -168,12 +169,15 @@ const Dashboard = () => {
             </details>
           </div>
         </div>
-        <div className="w-full flex flex-col gap-5 p-5">
+
+        <DashboardAllProducts />
+
+        {/* <div className="w-full flex flex-col gap-5 p-5">
           <h1 className="text-headingColor font-poppinsBold text-3xl ">
             Dashboard
           </h1>
 
-          {/* ---------------- orders status ------------------------ */}
+          ---------------- orders status ------------------------
           <div className="flex items-center justify-center gap-10">
             <OrderCard
               orderType={"successful orders"}
@@ -197,7 +201,7 @@ const Dashboard = () => {
             />
           </div>
 
-          {/* ----------------------- charts -------------------------- */}
+          ----------------------- charts --------------------------
           <div className="w-full h-full flex items-center">
             <div className="w-1/2 h-full p-2 ">
               <DashboardLineChart />
@@ -206,7 +210,7 @@ const Dashboard = () => {
               <DashboardBarChart />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
