@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema({
-    productId: { 
+    jewelleryId: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Product',  // Reference to the jewelry item being reviewed
+        ref: 'Jewellery',  // Reference to the jewelry item being reviewed
         required: true 
     },
     userId: { 

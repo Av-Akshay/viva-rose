@@ -36,7 +36,7 @@ const router = express.Router();
  *                 items:
  *                   type: string
  *                   format: binary
- *                 description: Images of the property (up to 10 images).
+ *                 description: Images of the jewellery (up to 5 images).
  *     responses:
  *       201:
  *         description: Review created successfully
@@ -69,26 +69,17 @@ router.get("/:id", reviewRatingController.getReviewById);
 
 /**
  * @swagger
- * /reviews/jewelleryId:
+ * /reviews:
  *   get:
- *     summary: Get a review by Jewellery ID
+ *     summary: Get all reviews
  *     tags: [Review Rating]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               jewelleryId:
- *                 type: string
  *     responses:
  *       200:
  *         description: Review data
  *       404:
  *         description: Review not found
  */
-router.get("/jewelleryId", reviewRatingController.getReviewsByJewellery);
+router.get("", reviewRatingController.getAllReviews);
 
 /**
  * @swagger
@@ -99,7 +90,7 @@ router.get("/jewelleryId", reviewRatingController.getReviewsByJewellery);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -115,14 +106,14 @@ router.get("/jewelleryId", reviewRatingController.getReviewsByJewellery);
  *                 items:
  *                   type: string
  *                   format: binary
- *                 description: Images of the property (up to 10 images).
+ *                 description: Images of the jewellery (up to 5 images).
  *     responses:
  *       200:
  *         description: Review updated successfully
  *       404:
  *         description: Review not found
  */
-router.put("/:id", auth, reviewRatingController.updateReview);
+router.put("/:id", auth, uploadReviewImage, reviewRatingController.updateReview);
 
 /**
  * @swagger

@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     ref: "Address"
   }],
   isVerified: { type: Boolean, default: false},
-  role: {type: String, enum: ["User","Agent","Admin"], default: 'User'},
+  role: {type: String, enum: ["User","Admin"], default: 'User'},
   phone: { type: String, minlength: 12, maxlength: 12},
   email: {
     type: String,
@@ -29,9 +29,9 @@ const userSchema = new mongoose.Schema({
     ref: "Order" 
   }],
   profilePic: { type: String},
-  reviewRating: [{ 
+  reviews: [{ 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: "Review" 
+    ref: "Review"
   }],
   cart:{
     type:mongoose.Schema.Types.ObjectId, 

@@ -34,7 +34,7 @@ const getAllUsers = async (req, res, next) => {
 // Get user by ID
 const getUserById = async (req, res, next) => {
   try {
-    const user = await userService.getUserById(req.user.id);
+    const user = await userService.getUserById(req.params.id);
     res.status(200).json({
       success: true,
       data: user,
@@ -47,7 +47,7 @@ const getUserById = async (req, res, next) => {
 // Update user by ID
 const updateUser = async (req, res, next) => {
   try {
-    const updatedUser = await userService.updateUser(req.user.id, req.body);
+    const updatedUser = await userService.updateUser(req.params.id, req.body);
     logger.info(
       "User id:" + `${updatedUser._id}` + " has updated his data successfully"
     );
@@ -64,7 +64,7 @@ const updateUser = async (req, res, next) => {
 // Delete user by ID
 const deleteUser = async (req, res, next) => {
   try {
-    await userService.deleteUser(req.user.id);
+    await userService.deleteUser(req.params.id);
     logger.info(
       "User id:" + `${req.user.id}` + " has been deleted successfully"
     );
@@ -77,7 +77,7 @@ const deleteUser = async (req, res, next) => {
 const changePassword = async (req, res, next) => {
   try {
     const updatedUser = await userService.changePassword(
-      req.user.id,
+      req.params.id,
       req.body
     );
     res.status(200).json({
@@ -92,7 +92,7 @@ const changePassword = async (req, res, next) => {
 const resetPassword = async (req, res, next) => {
   try {
     const response = await userService.resetPassword(
-      req.user.id,
+      req.params.id,
       req.body.newPassword,
       req.body.confirmNewPassword
     );
@@ -107,7 +107,7 @@ const resetPassword = async (req, res, next) => {
 
 const orders = async (req, res, next) => {
   try {
-    const userId= req.user.id;
+    const userId= req.params.id;
     const orders = await userService.orders(userId);
     res.status(200).json({
       success: true,
@@ -120,7 +120,7 @@ const orders = async (req, res, next) => {
 
 const wishlistJewellery = async (req, res, next) => {
   try {
-    const wishlist = await userService.wishlistJewellery(req.user.id);
+    const wishlist = await userService.wishlistJewellery(req.params.id);
     res.status(200).json({
       success: true,
       data: wishlist,
@@ -134,7 +134,7 @@ const wishlistJewellery = async (req, res, next) => {
 const addWishlistJewellery = async (req, res, next) => {
     try {
       const wishlistJewellery = await userService.addWishlistJewellery(
-        req.user.id,
+        req.params.id,
         req.body.jewelleryId
       );
       res.status(200).json({
@@ -151,7 +151,7 @@ const addWishlistJewellery = async (req, res, next) => {
   const removeWishlistJewellery = async (req, res, next) => {
     try {
       const wishlistJewellery = await userService.removeWishlistJewellery(
-        req.user.id,
+        req.params.id,
         req.body.jewelleryId
       );
       res.status(200).json({
@@ -160,6 +160,18 @@ const addWishlistJewellery = async (req, res, next) => {
       });
     } catch (error) {
       //console.log(error);
+      next(error);
+    }
+  };
+
+  const getUserAddresses = async (req, res, next) => {
+    try {
+      const addresses = await userService.getUserAddresses(req.params.id);
+      res.status(200).json({
+        success: true,
+        data: addresses,
+      });
+    } catch (error) {
       next(error);
     }
   };
@@ -175,5 +187,6 @@ module.exports = {
   changePassword,
   resetPassword,
   orders,
-  wishlistJewellery
+  wishlistJewellery,
+  getUserAddresses
 };

@@ -30,7 +30,8 @@ const createJewellery = async (userId, jewelleryData, files) => {
     // jewellery.height=jewelleryData.height;
     jewellery.materialWeight=jewelleryData.materialWeight;
     jewellery.stockCount=jewelleryData.stockCount;
-    jewellery.price=jewelleryData.price;            
+    jewellery.price=jewelleryData.price;      
+    jewellery.avgRating=5;      
     jewellery.stockStatus=jewelleryData.stockStatus;
     jewellery.description=jewelleryData.description;
     jewellery.jewelleryImages=imageURLs;
@@ -40,7 +41,13 @@ const createJewellery = async (userId, jewelleryData, files) => {
 };
 
 const getJewelleryById = async (jewelleryId) => {
-    const jewellery = await Jewellery.findById(jewelleryId);
+    const jewellery = await Jewellery.findById(jewelleryId).populate({
+        path: "reviews",
+        populate: {
+          path: "userId",
+          select: ["profilePic", "name", "createdAt"]
+        }
+      });
     if(!jewellery){
         throw new NotFoundError("Jewellery not found");
     }
@@ -81,8 +88,13 @@ const searchJewellery = async (filters, sortBy, sortOrder) => {
  }
   
   // Query database with filters and sorting
-  const filteredJewellerys = await Jewellery.find(query).sort(sortCriteria).select('-reviews').exec();
-  console.log(filteredJewellerys.length);
+  const filteredJewellerys = await Jewellery.find(query).sort(sortCriteria).populate({
+    path: "reviews",
+    populate: {
+      path: "userId",
+      select: ["profilePic", "name", "createdAt"]
+    }
+  }).exec();
   
   if (!filteredJewellerys || filteredJewellerys.length === 0) {
     throw new NotFoundError('No jewellerys found matching the criteria.');
@@ -106,9 +118,6 @@ const updateJewellery = async (userId, jewelleryId, jewelleryData, files) => {
     const jewellery = await Jewellery.findById(jewelleryId);
     if(!jewellery){
         throw new NotFoundError("Jewellery not found");
-    }
-    if(jewelleryData.jewelleryCode){
-        jewellery.jewelleryCode=jewelleryData.jewelleryCode;
     }
     if(jewelleryData.jewelleryName){
         jewellery.jewelleryName=jewelleryData.jewelleryName;

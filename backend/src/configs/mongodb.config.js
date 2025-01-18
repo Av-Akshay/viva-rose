@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const logger = require("./winston.config");
 
 dotenv.config();
 
@@ -8,19 +9,20 @@ const connectDb = async () => {
    const connection =  await mongoose.connect(process.env.DATABASE_URL,{
         maxPoolSize: 10,
     });
-    console.log("MongoDB connected successfully.");
+    console.log("Database connected successfully");
+    logger.info("Database connected successfully.");
   } catch (error) {
-    console.error(`MongoDB connection error: ${error.message}`);
+    logger.error(`Database connection error: ${error.message}`);
     process.exit(1);
   }
 
   mongoose.connection.on("error", (err) => {
-    console.error(`MongoDB connection error: ${err.message}`);
+    logger.error(`Database connection error: ${err.message}`);
   });
 
   process.on("SIGINT", async () => {
     await mongoose.connection.close();
-    console.log("MongoDB connection closed due to application termination.");
+    logger.info("Database connection closed due to application termination.");
     process.exit(0);
   });
 };

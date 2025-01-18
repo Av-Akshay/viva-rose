@@ -13,6 +13,7 @@ const jewellerySchema = new mongoose.Schema({
     price: { type: Number, required: true },
     stockStatus: {type: String, required: true, default: 'in-stock'}, // e.g., in-stock, out-of-stock //excludes out of stock
     description: { type: String },
+    avgRating: {type: Number},
     reviews: [{type: mongoose.Schema.Types.ObjectId,
         ref: "Review"
     }],

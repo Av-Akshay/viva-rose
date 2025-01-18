@@ -6,7 +6,7 @@ const router = express.Router();
  * @swagger
  * /search/jewellery:
  *   get:
- *     summary: Search for jewellerys
+ *     summary: Search for jewelleries
  *     tags: [Jewellery]
  *     parameters:
  *       - in: query

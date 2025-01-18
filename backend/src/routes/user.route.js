@@ -6,6 +6,13 @@ const { registerLimiter } = require("../middlewares/rate.limitter.js");
 
 /**
  * @swagger
+ * tags:
+ *   name: Users
+ *   description: Users Management
+ */
+
+/**
+ * @swagger
  * /users/register:
  *   post:
  *     summary: Register a new user
@@ -44,19 +51,25 @@ router.post("/register", registerLimiter, userController.createUser);
 
 /**
  * @swagger
- * /users/details:
+ * /users/{id}/details:
  *   get:
  *     summary: Get user by ID
  *     description: Retrieve a user by their ID
  *     tags:
  *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: User retrieved successfully
  *       404:
  *         description: User not found
  */
-router.get("/details", auth, userController.getUserById);
+router.get("/:id/details", userController.getUserById);
 
 /**
  * @swagger
@@ -92,12 +105,18 @@ router.get("/all", userController.getAllUsers);
 
 /**
  * @swagger
- * /users/update:
+ * /users/{id}/update:
  *   put:
  *     summary: Update user by ID
  *     description: Update a user's information by their ID
  *     tags:
  *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -119,32 +138,44 @@ router.get("/all", userController.getAllUsers);
  *       404:
  *         description: User not found
  */
-router.put("/update", auth, userController.updateUser);
+router.put("/:id/update", userController.updateUser);
 
 /**
  * @swagger
- * /users/delete:
+ * /users/{id}/delete:
  *   delete:
  *     summary: Delete user by ID
  *     description: Delete a user by their ID
  *     tags:
  *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: User deleted successfully
  *       404:
  *         description: User not found
  */
-router.delete("/delete", auth, userController.deleteUser);
+router.delete("/:id/delete", userController.deleteUser);
 
 /**
  * @swagger
- * /users/change-password:
+ * /users/{id}/change-password:
  *   put:
  *     summary: Update User Password by ID
  *     description: Update a user's password by their ID
  *     tags:
  *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -169,6 +200,149 @@ router.delete("/delete", auth, userController.deleteUser);
  *       404:
  *         description: User not found
  */
-router.put("/change-password", auth, userController.changePassword);
+router.put("/:id/change-password", userController.changePassword);
+
+/**
+ * @swagger
+ * /users/{id}/reset-password:
+ *   put:
+ *     summary: Reset User Password
+ *     description: Reset user's password
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               newPassword:
+ *                 type: string
+ *                 description: Reset user's new password
+ *               confirmNewPassword:
+ *                 type: string
+ *                 description: Reset user's confirm new password
+ *     responses:
+ *       200:
+ *         description: User password has been reset successfully
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: User not found
+ */
+router.put("/:id/reset-password", userController.resetPassword);
+
+/**
+ * @swagger
+ * /users/{id}/addresses:
+ *   get:
+ *     summary: User Addressses
+ *     description: Retrieve a list of addresses
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of addresses retrieved successfully
+ *       404:
+ *         description: No addresses found 
+ */
+router.get('/:id/addresses', userController.getUserAddresses);
+
+/**
+ * @swagger
+ * /users/{id}/wishlist:
+ *   get:
+ *     summary: Wishlist Jewellerys
+ *     description: Retrieve a list of jewellerys
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of properties retrieved successfully
+ *       404:
+ *         description: No properties found matching the criteria
+ */
+router.get('/:id/wishlist', userController.wishlistJewellery);
+
+/**
+ * @swagger
+ * /users/{id}/wishlist/add-jewellery:
+ *   post:
+ *     summary: Add a jewellery to user's wishlist
+ *     description: Adds a jewellery to the user's wishlist list
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               jewelleryId:
+ *                 type: string
+ *                 description: JewelleryId
+ *     responses:
+ *       200:
+ *         description: Jewellery added to wishlist successfully
+ *       404:
+ *         description: User or Jewellery not found
+ *       500:
+ *         description: Internal server error
+ */
+router.post('/:id/wishlist/add-jewellery', userController.addWishlistJewellery);
+
+/**
+ * @swagger
+ * /users/{id}/wishlist/remove-jewellery:
+ *   delete:
+ *     summary: Remove a jewellery from user's wishlist
+ *     description: Removes a jewellery from the user's wishlist
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               jewelleryId:
+ *                 type: string
+ *                 description: JewelleryId
+ *     responses:
+ *       200:
+ *         description: Jewellery removed from wishlist successfully
+ *       404:
+ *         description: User or Jewellery not found
+ *       500:
+ *         description: Internal server error
+ */
+router.delete('/:id/wishlist/remove-jewellery', userController.removeWishlistJewellery);
 
 module.exports = router;

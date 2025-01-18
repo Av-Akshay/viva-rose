@@ -40,9 +40,7 @@ const createUser = async (userData) => {
 };
 
 const getAllUsers = async () => {
-  const users = await User.find()
-    //.populate("Order")
-    .exec();
+  const users = await User.find().exec();
 
   logger.error("error");
   return users;
@@ -142,15 +140,15 @@ const resetPassword = async (userId, newPassword, confirmNewPassword) => {
 };
 
 const orders = async (userId) => {
-    const User = await User.findById(userId)
-    .populate("Order")
+    const user = await User.findById(userId)
+    .populate("order")
     .exec();
 
-    if(User.orders.length=='0'){
+    if(user.orders.length=='0'){
         throw new NotFoundError("No orders found");
     }
   
-  return User.orders;
+  return user.orders;
 };
 
 const wishlistJewellery = async(userId) =>{
@@ -211,6 +209,19 @@ const addWishlistJewellery = async (userId, jewelleryId) => {
     return wishlistJewellery;
   };
 
+  const getUserAddresses = async(userId) => {
+    const user = await User.findById(userId).populate("address").exec();
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
+
+    if (user.address.length == 0) {
+      throw new NotFoundError('No addresses found');
+    }
+
+    return user;
+  }
+
 
 module.exports = {
   createUser,
@@ -223,5 +234,6 @@ module.exports = {
   orders,
   wishlistJewellery,
   addWishlistJewellery,
-  removeWishlistJewellery
+  removeWishlistJewellery,
+  getUserAddresses
 };

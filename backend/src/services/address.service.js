@@ -1,4 +1,4 @@
-const Address = require("./address.model");
+const Address = require("../models/address.model.js");
 const User = require("../models/user.model.js");
 const {
     ConflictError,
@@ -37,28 +37,44 @@ const getAddressById = async (addressId) => {
     return await Address.findById(addressId);
 };
 
-const updateAddress = async (userId, addressId, updateData) => {
-    const user = await User.findById(userId);
-    if(!user){
-        throw new NotFoundError("User not found");
-    }
+const updateAddress = async ( addressId, updateData) => {
     const address = await Address.findById(addressId);
     if(!address){
         throw new NotFoundError("Address not found");
     }
-    return await Address.findByIdAndUpdate(addressId, updateData, { new: true });
+    if(address.pinCode){
+    address.pinCode=updateData.pinCode;
+    }
+    if(address.flatHouseBuildingCompanyApartment){
+    address.flatHouseBuildingCompanyApartment=updateData.flatHouseBuildingCompanyApartment;
+    }
+    if(address.areaStreetSectorVillage){
+    address.areaStreetSectorVillage=updateData.areaStreetSectorVillage;
+    }
+    if(address.landmark){
+    address.landmark=updateData.areaStreetSectorVillage;
+    }
+    if(address.townCity){
+    address.townCity=updateData.townCity;
+    }
+    if(address.state){
+    address.state=updateData.state;
+    }
+    await address.save();
+
+    return address;
 };
 
-const deleteAddress = async (userId, addressId) => {
-    const user = await User.findById(userId);
-    if(!user){
-        throw new NotFoundError("User not found");
-    }
+const deleteAddress = async ( addressId) => {
     const address = await Address.findById(addressId);
     if(!address){
         throw new NotFoundError("Address not found");
     }
     await Address.findByIdAndDelete(addressId);
+    const user = await User.findById(address.userId);
+    if(!user){
+        throw new NotFoundError("User not found");
+    }
     user.address = user.address.filter(
         (id) => id.toString() !== addressId.toString()
     );

@@ -33,7 +33,6 @@ const getJewelleryById= async(req, res, next) =>{
     try{
         const jewelleryId=req.params.id;
         const jewellery= await jewelleryService.getJewelleryById(jewelleryId);
-        console.log(jewellery);
         res.status(200).json({
             success: true,
             data: jewellery,
