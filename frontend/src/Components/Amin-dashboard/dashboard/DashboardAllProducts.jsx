@@ -15,7 +15,6 @@ const DashboardAllProducts = () => {
     cardsStart * cardOnOnePage,
     cardsStart * cardOnOnePage + cardOnOnePage
   );
-  console.log(cardsShown);
 
   return (
     <div className="w-full flex flex-col gap-2 h-full p-5">

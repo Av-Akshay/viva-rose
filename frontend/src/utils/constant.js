@@ -75,4 +75,11 @@ const orders = [
   },
 ];
 
-export { jewelleryValues, addresses, orders };
+const dashboardOrderList = {
+  product: "necklace",
+  orderId: "dolp1",
+  customerName: "akshay chauhan",
+  status: "delivered",
+  amount: "10,999",
+};
+export { jewelleryValues, addresses, orders, dashboardOrderList };

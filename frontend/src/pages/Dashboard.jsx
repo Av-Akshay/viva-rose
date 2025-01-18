@@ -13,7 +13,9 @@ import {
   OrderCard,
   DashboardBarChart,
   DashboardAllProducts,
+  DashboardOrderList,
 } from "../Components";
+import { act } from "react-dom/test-utils";
 
 const Dashboard = () => {
   const { activePath, setActivePath } = useDashboard();
@@ -170,47 +172,47 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <DashboardAllProducts />
-
-        {/* <div className="w-full flex flex-col gap-5 p-5">
-          <h1 className="text-headingColor font-poppinsBold text-3xl ">
-            Dashboard
-          </h1>
-
-          ---------------- orders status ------------------------
-          <div className="flex items-center justify-center gap-10">
-            <OrderCard
-              orderType={"successful orders"}
-              orders="2,867"
-              Icon={GiStorkDelivery}
-            />
-            <OrderCard
-              orderType={"cancelled orders"}
-              orders="867"
-              Icon={MdCancel}
-            />
-            <OrderCard
-              orderType={"Refund orders"}
-              orders="567"
-              Icon={RiRefund2Fill}
-            />
-            <OrderCard
-              orderType={"Active orders"}
-              orders="1,367"
-              Icon={RiRadioButtonLine}
-            />
-          </div>
-
-          ----------------------- charts --------------------------
-          <div className="w-full h-full flex items-center">
-            <div className="w-1/2 h-full p-2 ">
-              <DashboardLineChart />
+        {activePath === "dashboard" && (
+          <div className="w-full flex flex-col gap-5 p-5">
+            <h1 className="text-headingColor font-poppinsBold text-3xl ">
+              Dashboard
+            </h1>
+            {/* ---------------- orders status ------------------------ */}
+            <div className="flex items-center justify-center gap-10">
+              <OrderCard
+                orderType={"successful orders"}
+                orders="2,867"
+                Icon={GiStorkDelivery}
+              />
+              <OrderCard
+                orderType={"cancelled orders"}
+                orders="867"
+                Icon={MdCancel}
+              />
+              <OrderCard
+                orderType={"Refund orders"}
+                orders="567"
+                Icon={RiRefund2Fill}
+              />
+              <OrderCard
+                orderType={"Active orders"}
+                orders="1,367"
+                Icon={RiRadioButtonLine}
+              />
             </div>
-            <div className="w-1/2 h-full p-2 ">
-              <DashboardBarChart />
+            {/* ----------------------- charts -------------------------- */}
+            <div className="w-full h-full flex items-center">
+              <div className="w-1/2 h-full p-2 ">
+                <DashboardLineChart />
+              </div>
+              <div className="w-1/2 h-full p-2 ">
+                <DashboardBarChart />
+              </div>
             </div>
           </div>
-        </div> */}
+        )}
+        {activePath === "all-products" && <DashboardAllProducts />}
+        {activePath === "all-orders" && <DashboardOrderList />}
       </div>
     </div>
   );
