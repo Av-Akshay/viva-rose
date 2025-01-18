@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { dashboardOrderList } from "../../../utils/constant";
+import { dashboardOrderList } from "../utils/constant";
 
 const DashboardOrderList = () => {
   let currentDate = new Date();

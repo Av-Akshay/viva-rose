@@ -37,8 +37,6 @@ import CategoryRadioButton from "./Amin-dashboard/dashboard/CategoryRadioButton"
 import OrderCard from "./Amin-dashboard/dashboard/OrderCard";
 import DashboardLineChart from "./Amin-dashboard/dashboard/DashboardLineChart";
 import DashboardBarChart from "./Amin-dashboard/dashboard/DashboardBarChart";
-import DashboardAllProducts from "./Amin-dashboard/dashboard/DashboardAllProducts";
-import DashboardOrderList from "./Amin-dashboard/dashboard/DashboardOrderList";
 
 export {
   Input,
@@ -66,6 +64,4 @@ export {
   OrderCard,
   DashboardLineChart,
   DashboardBarChart,
-  DashboardAllProducts,
-  DashboardOrderList,
 };

@@ -4,7 +4,7 @@ import { Navbar, Footer } from "./Components";
 
 function App() {
   const location = useLocation();
-  const showFooter = location.pathname !== "/admin/dashboard";
+  const showFooter = !location.pathname.startsWith("/admin/dashboard");
   return (
     <>
       <Navbar />

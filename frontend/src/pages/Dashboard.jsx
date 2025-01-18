@@ -1,21 +1,9 @@
 import React from "react";
 import { IoIosNotifications } from "react-icons/io";
-import { GiStorkDelivery } from "react-icons/gi";
-import { MdCancel } from "react-icons/md";
-import { RiRefund2Fill, RiRadioButtonLine } from "react-icons/ri";
 
-import { logo } from "../utils/icons";
-import { Link } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import useDashboard from "../hooks/useDashboard";
-import {
-  CategoryRadioButton,
-  DashboardLineChart,
-  OrderCard,
-  DashboardBarChart,
-  DashboardAllProducts,
-  DashboardOrderList,
-} from "../Components";
-import { act } from "react-dom/test-utils";
+import { CategoryRadioButton, OrderCard } from "../Components";
 
 const Dashboard = () => {
   const { activePath, setActivePath } = useDashboard();
@@ -54,44 +42,39 @@ const Dashboard = () => {
       </div>
       <div className="h-[79.93vh] flex">
         <div className="w-[20%] bg-white h-full flex flex-col items-center p-5 gap-5">
-          <button
-            onClick={() => {
-              setActivePath("dashboard");
+          <NavLink
+            to="/admin/dashboard"
+            end
+            className={({ isActive }) => {
+              console.log(isActive);
+
+              return isActive
+                ? "font-poppinsMedium text-white bg-headingColor w-40 text-center py-2"
+                : "font-poppinsMedium text-black bg-transparent w-40 text-center py-2";
             }}
-            className={`${
-              activePath === "dashboard"
-                ? "text-white bg-headingColor "
-                : " text-black"
-            } w-full transition-all font-poppinsMedium px-6 py-2 rounded-xl `}
           >
-            {" "}
-            Dashboard{" "}
-          </button>
-          <button
-            onClick={() => {
-              setActivePath("all-products");
-            }}
-            className={`${
-              activePath === "all-products"
-                ? "text-white bg-headingColor "
-                : " text-black"
-            } w-full transition-all font-poppinsMedium px-6 py-2 rounded-xl `}
+            Dashboard
+          </NavLink>
+          <NavLink
+            to="/admin/dashboard/allProducts"
+            className={({ isActive }) =>
+              isActive
+                ? "font-poppinsMedium text-white bg-headingColor w-40 text-center py-2"
+                : "font-poppinsMedium text-black bg-transparent w-40 text-center py-2"
+            }
           >
-            {" "}
-            All Products{" "}
-          </button>
-          <button
-            onClick={() => {
-              setActivePath("all-orders");
-            }}
-            className={`${
-              activePath === "all-orders"
-                ? "text-white bg-headingColor "
-                : " text-black"
-            } w-full transition-all font-poppinsMedium px-6 py-2 rounded-xl `}
+            All Products
+          </NavLink>
+          <NavLink
+            to="/admin/dashboard/allOrders"
+            className={({ isActive }) =>
+              isActive
+                ? "font-poppinsMedium text-white bg-headingColor w-40 text-center py-2"
+                : "font-poppinsMedium text-black bg-transparent w-40 text-center py-2"
+            }
           >
             Order List
-          </button>
+          </NavLink>
           <div className="w-4/5 flex flex-col gap-1">
             <details
               tabIndex={0}
@@ -171,13 +154,12 @@ const Dashboard = () => {
             </details>
           </div>
         </div>
-
-        {activePath === "dashboard" && (
-          <div className="w-full flex flex-col gap-5 p-5">
+        <Outlet />
+        {/* <div className="w-full flex flex-col gap-5 p-5">
             <h1 className="text-headingColor font-poppinsBold text-3xl ">
               Dashboard
             </h1>
-            {/* ---------------- orders status ------------------------ */}
+           
             <div className="flex items-center justify-center gap-10">
               <OrderCard
                 orderType={"successful orders"}
@@ -200,7 +182,7 @@ const Dashboard = () => {
                 Icon={RiRadioButtonLine}
               />
             </div>
-            {/* ----------------------- charts -------------------------- */}
+          
             <div className="w-full h-full flex items-center">
               <div className="w-1/2 h-full p-2 ">
                 <DashboardLineChart />
@@ -209,10 +191,10 @@ const Dashboard = () => {
                 <DashboardBarChart />
               </div>
             </div>
-          </div>
-        )}
-        {activePath === "all-products" && <DashboardAllProducts />}
-        {activePath === "all-orders" && <DashboardOrderList />}
+          </div> */}
+
+        {/* {activePath === "all-products" && <DashboardAllProducts />} */}
+        {/* {activePath === "all-orders" && <DashboardOrderList />} */}
       </div>
     </div>
   );

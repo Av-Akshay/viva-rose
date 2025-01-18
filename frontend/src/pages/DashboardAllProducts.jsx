@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { Cards } from "../../index";
-import { ring } from "../../../utils/icons";
+import { Cards } from "../Components";
+import { ring } from "../utils/icons";
 
 const DashboardAllProducts = () => {
   let myArray = Array.from({ length: 95 }, (_, i) => i);

@@ -16,6 +16,11 @@ const AccountSetting = lazy(() => import("./pages/AccountSetting.jsx"));
 const MyOrders = lazy(() => import("./pages/MyOrders.jsx"));
 const RatingForm = lazy(() => import("./pages/RatingForm.jsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
+const Graph = lazy(() => import("./pages/Graphs.jsx"));
+const DashboardAllProducts = lazy(() =>
+  import("./pages/DashboardAllProducts.jsx")
+);
+const DashboardOrderList = lazy(() => import("./pages/DashboardOrderList.jsx"));
 
 const routes = createBrowserRouter([
   {
@@ -103,12 +108,38 @@ const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/admin/dashboard",
+        path: "/admin",
         element: (
           <Suspense fallback={<Loader />}>
             <Dashboard />
           </Suspense>
         ),
+        children: [
+          {
+            path: "/admin/dashboard",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <Graph />
+              </Suspense>
+            ),
+          },
+          {
+            path: "/admin/dashboard/allProducts",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <DashboardAllProducts />
+              </Suspense>
+            ),
+          },
+          {
+            path: "/admin/dashboard/allOrders",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <DashboardOrderList />
+              </Suspense>
+            ),
+          },
+        ],
       },
     ],
   },
