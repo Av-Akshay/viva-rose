@@ -28,13 +28,13 @@ const router = express.Router();
  *               pincode:
  *                 type: string
  *               flatHouseBuildingCompanyApartment:
- *                 type: number
+ *                 type: string
  *               areaStreetSectorVillage:
  *                 type: string
  *               landmark:
  *                 type: string
  *               townCity:
- *                 type: number
+ *                 type: string
  *               state:
  *                 type: string
  *     responses:
@@ -103,13 +103,13 @@ router.get("/", addressController.getAllAddresses);
  *               pincode:
  *                 type: string
  *               flatHouseBuildingCompanyApartment:
- *                 type: number
+ *                 type: string
  *               areaStreetSectorVillage:
  *                 type: string
  *               landmark:
  *                 type: string
  *               townCity:
- *                 type: number
+ *                 type: string
  *               state:
  *                 type: string
  *     responses:

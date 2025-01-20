@@ -4,7 +4,7 @@ const logger = require("../configs/winston.config.js");
 // Create an order from the cart
 const createOrder = async (req, res, next) => {
     try{
-        const {message, order}= await orderService.createOrder(req.user.id);
+        const {message, order}= await orderService.createOrder(req.body.userId);
         res.status(201).json({ message, order });
     } catch (error) {
         next(error);
@@ -34,7 +34,7 @@ const verifyPayment = async (req, res, next) => {
 // Get all orders for a user
 const getOrdersByUserId = async (req, res, next) => {
     try {
-        const orders = await orderService.getOrdersByUserId(req.user.id);
+        const orders = await orderService.getOrdersByUserId(req.params.userId);
         res.status(200).json(orders);
     } catch (error) {
          next(error);
@@ -44,7 +44,7 @@ const getOrdersByUserId = async (req, res, next) => {
 // Get a single order by ID
 const getOrderById = async (req, res, next) => {
     try {
-        const order = await orderService.getOrderById(req.body.orderId);
+        const order = await orderService.getOrderById(req.params.id);
         res.status(200).json(order);
     } catch (error) {
          next(error);
@@ -54,7 +54,7 @@ const getOrderById = async (req, res, next) => {
 // Update order status
 const updateOrderStatus = async (req, res, next) => {
     try {
-        const order = await orderService.updateOrderStatus(req.body.orderId, req.body);
+        const order = await orderService.updateOrderStatus(req.params.orderId, req.body);
         res.status(200).json(order);
     } catch (error) {
          next(error);
@@ -64,7 +64,7 @@ const updateOrderStatus = async (req, res, next) => {
 // Delete an order
 const deleteOrder = async (req, res, next) => {
     try {
-        const { message, order } = await orderService.findByIdAndDelete(req.body.orderId);
+        const { message, order } = await orderService.deleteOrder(req.params.orderId);
         res.status(200).json({ message, order });
     } catch (error) {
          next(error);

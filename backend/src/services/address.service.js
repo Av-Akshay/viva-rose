@@ -12,13 +12,13 @@ const createAddress = async (userId, addressData) => {
         throw new NotFoundError("User not found");
     }
     const address=new Address();
-    address.pinCode=addressData.pinCode;
+    address.pincode=addressData.pincode;
     address.flatHouseBuildingCompanyApartment=addressData.flatHouseBuildingCompanyApartment;
     address.areaStreetSectorVillage=addressData.areaStreetSectorVillage;
-    address.landmark=addressData.areaStreetSectorVillage;
+    address.landmark=addressData.landmark;
     address.townCity=addressData.townCity;
     address.state=addressData.state;
-    address.user=userId;
+    address.userId=userId;
     await address.save();
     user.address.push(address._id);
     await user.save();
@@ -42,8 +42,8 @@ const updateAddress = async ( addressId, updateData) => {
     if(!address){
         throw new NotFoundError("Address not found");
     }
-    if(address.pinCode){
-    address.pinCode=updateData.pinCode;
+    if(address.pincode){
+    address.pincode=updateData.pincode;
     }
     if(address.flatHouseBuildingCompanyApartment){
     address.flatHouseBuildingCompanyApartment=updateData.flatHouseBuildingCompanyApartment;

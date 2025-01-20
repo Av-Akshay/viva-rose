@@ -47,7 +47,7 @@ const getAllUsers = async () => {
 };
 
 const getUserById = async (userId) => {
-  const user = await User.findById(userId)
+  const user = await User.findById(userId).populate("address")
     //.populate("Order")
     .exec();
   if (!user) {
@@ -155,7 +155,7 @@ const wishlistJewellery = async(userId) =>{
     const user = await User.findById(userId).populate("wishlist").exec();
 
     if(user.wishlist.length=='0'){
-        throw new NotFoundError("No jewellerys found");
+        throw new NotFoundError("No jewelleries found");
     }
     return user.wishlist;
 }

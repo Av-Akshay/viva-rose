@@ -87,8 +87,8 @@ server.use("/api/jewellery", jewelleryRoutes);
 server.use("/api/search/jewellery", searchJewelleryRoutes);
 server.use("/api/reviews", reviewRatingRoutes);
 server.use("/api/address", addressRoutes);
-// server.use("/api/orders", orderRoutes);
-// server.use("/api/cart", cartRoutes);
+server.use("/api/orders", orderRoutes);
+server.use("/api/cart", cartRoutes);
 server.use("/api/contact", contactFormRoutes);
 
 // Error handling middleware

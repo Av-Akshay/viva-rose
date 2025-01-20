@@ -83,10 +83,16 @@ router.get("", reviewRatingController.getAllReviews);
 
 /**
  * @swagger
- * /reviews/update:
+ * /reviews/{id}/update:
  *   put:
  *     summary: Update a review by its ID
  *     tags: [Review Rating]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -94,8 +100,6 @@ router.get("", reviewRatingController.getAllReviews);
  *           schema:
  *             type: object
  *             properties:
- *               reviewId:
- *                 type: string
  *               rating:
  *                 type: number
  *                 enum: ['5','4','3','2','1']
@@ -113,11 +117,11 @@ router.get("", reviewRatingController.getAllReviews);
  *       404:
  *         description: Review not found
  */
-router.put("/:id", auth, uploadReviewImage, reviewRatingController.updateReview);
+router.put("/:id/update", uploadReviewImage, reviewRatingController.updateReview);
 
 /**
  * @swagger
- * /reviews/delete:
+ * /reviews/{id}/delete:
  *   delete:
  *     summary: Delete a review by its ID
  *     tags: [Review Rating]
@@ -136,6 +140,6 @@ router.put("/:id", auth, uploadReviewImage, reviewRatingController.updateReview)
  *       404:
  *         description: Review not found
  */
-router.delete("/:id", auth, reviewRatingController.deleteReview);
+router.delete("/:id/delete", reviewRatingController.deleteReview);
 
 module.exports = router;
