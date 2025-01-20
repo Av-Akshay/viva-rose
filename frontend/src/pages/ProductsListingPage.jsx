@@ -8,7 +8,7 @@ const ProductsListingPage = () => {
     items.push(i);
   }
   return (
-    <div className=" w-full mx-auto flex items-baseline">
+    <div className=" w-full mx-auto flex items-baseline my-10">
       <div className=" flex flex-col gap-5 w-[25%] pr-2 pl-10">
         <Filters />
       </div>

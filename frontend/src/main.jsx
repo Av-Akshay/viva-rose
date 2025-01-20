@@ -12,6 +12,15 @@ const CartPage = lazy(() => import("./pages/CartPage.jsx"));
 const Wishlist = lazy(() => import("./pages/Wishlist.jsx"));
 const ListingPage = lazy(() => import("./pages/ProductsListingPage.jsx"));
 const ProductDetailPage = lazy(() => import("./pages/ProductDetail.jsx"));
+const AccountSetting = lazy(() => import("./pages/AccountSetting.jsx"));
+const MyOrders = lazy(() => import("./pages/MyOrders.jsx"));
+const RatingForm = lazy(() => import("./pages/RatingForm.jsx"));
+const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
+const Graph = lazy(() => import("./pages/Graphs.jsx"));
+const DashboardAllProducts = lazy(() =>
+  import("./pages/DashboardAllProducts.jsx")
+);
+const DashboardOrderList = lazy(() => import("./pages/DashboardOrderList.jsx"));
 
 const routes = createBrowserRouter([
   {
@@ -73,6 +82,64 @@ const routes = createBrowserRouter([
             <ProductDetailPage />
           </Suspense>
         ),
+      },
+      {
+        path: "/account-setting",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <AccountSetting />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/orders",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <MyOrders />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/ratings",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <RatingForm />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/admin",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Dashboard />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "/admin/dashboard",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <Graph />
+              </Suspense>
+            ),
+          },
+          {
+            path: "/admin/dashboard/allProducts",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <DashboardAllProducts />
+              </Suspense>
+            ),
+          },
+          {
+            path: "/admin/dashboard/allOrders",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <DashboardOrderList />
+              </Suspense>
+            ),
+          },
+        ],
       },
     ],
   },
