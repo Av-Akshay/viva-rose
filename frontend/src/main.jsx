@@ -21,6 +21,9 @@ const DashboardAllProducts = lazy(() =>
   import("./pages/DashboardAllProducts.jsx")
 );
 const DashboardOrderList = lazy(() => import("./pages/DashboardOrderList.jsx"));
+const DashboardOrderDetail = lazy(() =>
+  import("./pages/DashboardOrderDetail.jsx")
+);
 
 const routes = createBrowserRouter([
   {
@@ -136,6 +139,14 @@ const routes = createBrowserRouter([
             element: (
               <Suspense fallback={<Loader />}>
                 <DashboardOrderList />
+              </Suspense>
+            ),
+          },
+          {
+            path: "/admin/dashboard/order-details",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <DashboardOrderDetail />
               </Suspense>
             ),
           },

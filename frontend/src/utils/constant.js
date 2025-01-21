@@ -82,4 +82,53 @@ const dashboardOrderList = {
   status: "delivered",
   amount: "10,999",
 };
-export { jewelleryValues, addresses, orders, dashboardOrderList };
+
+const ordersDetail = {
+  orderId: "dos1",
+  orderStatus: "pending",
+  customer: {
+    name: "akshay",
+    email: "user@gmail.com",
+    phone: "+91 1234567890",
+  },
+  orderInfo: {
+    status: "pending",
+    paymentMethod: "razorPay",
+    shipping: "next express",
+  },
+  deliverTo: {
+    address: "patal Nagar, Dehradun, uttrakhand",
+  },
+  products: [
+    {
+      product: "necklace",
+      orderId: "dolp1",
+      customerName: "akshay chauhan",
+      status: "delivered",
+      amount: "10999",
+    },
+    {
+      product: "necklace",
+      orderId: "dolp1",
+      customerName: "akshay chauhan",
+      status: "delivered",
+      amount: "10999",
+    },
+    {
+      product: "necklace",
+      orderId: "dolp1",
+      customerName: "akshay chauhan",
+      status: "delivered",
+      amount: "10999",
+    },
+    {
+      product: "necklace",
+      orderId: "dolp1",
+      customerName: "akshay chauhan",
+      status: "delivered",
+      amount: "10999",
+    },
+  ],
+};
+
+export { jewelleryValues, addresses, orders, dashboardOrderList, ordersDetail };

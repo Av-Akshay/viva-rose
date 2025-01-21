@@ -3,7 +3,7 @@ import { IoIosNotifications } from "react-icons/io";
 
 import { Link, NavLink, Outlet } from "react-router-dom";
 import useDashboard from "../hooks/useDashboard";
-import { CategoryRadioButton, OrderCard } from "../Components";
+import { CategoryRadioButton } from "../Components";
 
 const Dashboard = () => {
   const { activePath, setActivePath } = useDashboard();
@@ -45,13 +45,11 @@ const Dashboard = () => {
           <NavLink
             to="/admin/dashboard"
             end
-            className={({ isActive }) => {
-              console.log(isActive);
-
-              return isActive
+            className={({ isActive }) =>
+              isActive
                 ? "font-poppinsMedium text-white bg-headingColor w-40 text-center py-2"
-                : "font-poppinsMedium text-black bg-transparent w-40 text-center py-2";
-            }}
+                : "font-poppinsMedium text-black bg-transparent w-40 text-center py-2"
+            }
           >
             Dashboard
           </NavLink>

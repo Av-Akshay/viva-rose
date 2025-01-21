@@ -38,6 +38,9 @@ import OrderCard from "./Amin-dashboard/dashboard/OrderCard";
 import DashboardLineChart from "./Amin-dashboard/dashboard/DashboardLineChart";
 import DashboardBarChart from "./Amin-dashboard/dashboard/DashboardBarChart";
 
+// -----------------admin order details --------------------------
+import OrderInfoCards from "./dashboard-order-detail/OrderInfoCards";
+
 export {
   Input,
   Heading,
@@ -64,4 +67,5 @@ export {
   OrderCard,
   DashboardLineChart,
   DashboardBarChart,
+  OrderInfoCards,
 };
