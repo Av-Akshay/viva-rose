@@ -47,7 +47,7 @@ const getUserById = async (req, res, next) => {
 // Update user by ID
 const updateUser = async (req, res, next) => {
   try {
-    const updatedUser = await userService.updateUser(req.params.id, req.body);
+    const updatedUser = await userService.updateUser(req.params.id, req.body, req.files);
     logger.info(
       "User id:" + `${updatedUser._id}` + " has updated his data successfully"
     );

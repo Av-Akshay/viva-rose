@@ -3,15 +3,26 @@ const userService = require("./user.service.js");
 const Jewellery = require("../models/jewellery.model.js");
 const {uploadImages, deleteImages} = require('../utils/image.upload.util.js');
 
+const generateJewelleryCode = async()=> {
+    let id;
+    do {
+      id = Math.floor(100000000 + Math.random() * 900000000);
+    } while (id % 10 === 0);
+    return id;
+  }
+
 const createJewellery = async (userId, jewelleryData, files) => {
     var jewelleryCodeString='VRSJ';
-    function generateJewelleryCode() {
-      let id;
-      do {
-        id = Math.floor(100000000 + Math.random() * 900000000);
-      } while (id % 10 === 0);
-      return id;
-    }   
+    let jewelleryCode=0;
+    let jewelleryCodeCheck=[];
+    do {
+        jewelleryCode = await generateJewelleryCode();
+    
+        // Check if the generated jewellery code already exists
+        jewelleryCodeCheck = await Jewellery.find({ jewelleryCode });
+    } while (jewelleryCodeCheck.length > 0); // Repeat if the jewellery code already exists
+
+
     const user= await userService.getUserById(userId);
     // Ensure the user has the 'admin' role
     if (user.role !== 'Admin') {
@@ -19,7 +30,7 @@ const createJewellery = async (userId, jewelleryData, files) => {
     }
     const imageURLs = await uploadImages(files);
     const jewellery = new Jewellery();
-    jewellery.jewelleryCode= jewelleryCodeString+generateJewelleryCode();
+    jewellery.jewelleryCode= jewelleryCodeString+jewelleryCode;
     jewellery.jewelleryName=jewelleryData.jewelleryName;
     jewellery.genderCategory=jewelleryData.genderCategory;
     jewellery.jewelleryType=jewelleryData.jewelleryType;

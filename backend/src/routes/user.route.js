@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require("../controllers/user.controller.js");
 const auth = require("../middlewares/auth.js");
 const { registerLimiter } = require("../middlewares/rate.limitter.js");
+const {uploadPic} = require("../middlewares/multer.js");
 
 /**
  * @swagger
@@ -120,16 +121,24 @@ router.get("/all", userController.getAllUsers);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               name:
  *                 type: string
- *                 description: Updated user's email
+ *                 description: Updated user's name
+ *               phone:
+ *                 type: number
  *               password:
  *                 type: string
  *                 description: Updated user's password
+ *               profilePic:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: Profile pic of User
  *     responses:
  *       200:
  *         description: User updated successfully
@@ -138,7 +147,7 @@ router.get("/all", userController.getAllUsers);
  *       404:
  *         description: User not found
  */
-router.put("/:id/update", userController.updateUser);
+router.put("/:id/update", uploadPic, userController.updateUser);
 
 /**
  * @swagger

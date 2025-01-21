@@ -10,6 +10,7 @@ const JWTToken = require("../utils/token.generation.util.js");
 const hashValue = require("../utils/hashing.util.js");
 const logger = require("../configs/winston.config.js");
 const dotenv = require("dotenv");
+const {uploadImage}= require("../utils/image.upload.util.js");
 
 dotenv.config();
 
@@ -57,24 +58,26 @@ const getUserById = async (userId) => {
 };
 
 // Update user's name only
-const updateUser = async (userId, updateData) => {
+const updateUser = async (userId, updateData, files) => {
   const user = await User.findById(userId);
   if (!user) {
     throw new NotFoundError("User not found");
   }
+  const imageURLs = await uploadImage(files);
 
-  const email = updateData.email;
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    throw new ConflictError("User with this email already exists");
+  if(updateData.name){
+    user.name=updateData.name;
   }
-
-  const password = hashValue.hash(updateData.password);
-  user.email = email;
-
-  //user.phone = phone;
-  user.password = password;
-
+  if(updateData.phone){
+    user.phone=updateData.phone;
+  }
+  if(files){
+    user.profilePic=imageURLs;
+  }
+  if(updateData.password){
+    const password = hashValue.hash(updateData.password);
+    user.password = password;
+  }
   await user.save();
 
   return user;
@@ -92,7 +95,7 @@ const changePassword = async (userId, passwordData) => {
   // Fetch the user by userId
   const user = await User.findById(userId);
 
-  if (!user) {
+  if (!user){
     throw new NotFoundError("User not found");
   }
 

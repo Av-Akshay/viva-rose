@@ -26,7 +26,7 @@ const uploadPic = multer({
     }
     cb(null, true);
   },
-}).single('profilePicture', 1);
+}).single('profilePic', 1);
 
 const uploadReviewImage = multer({
   limits: {

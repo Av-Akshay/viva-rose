@@ -44,7 +44,7 @@ const getOrdersByUserId = async (req, res, next) => {
 // Get a single order by ID
 const getOrderById = async (req, res, next) => {
     try {
-        const order = await orderService.getOrderById(req.params.id);
+        const order = await orderService.getOrderById(req.params.orderId);
         res.status(200).json(order);
     } catch (error) {
          next(error);
@@ -54,7 +54,7 @@ const getOrderById = async (req, res, next) => {
 // Update order status
 const updateOrderStatus = async (req, res, next) => {
     try {
-        const order = await orderService.updateOrderStatus(req.params.orderId, req.body);
+        const order = await orderService.updateOrderStatus(req.params.orderId, req.body.status);
         res.status(200).json(order);
     } catch (error) {
          next(error);

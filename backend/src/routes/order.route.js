@@ -151,7 +151,7 @@ router.post("/payment/verify", orderController.verifyPayment);
  *             properties:
  *               status:
  *                 type: string
- *                 enum: ["Pending", "Completed", "Cancelled", "Refund"]
+ *                 enum: ["Pending", "Completed", "Shipped","Out for Delivery","Cancelled", "Returned"]
  *                 description: The new status of the order.
  *     responses:
  *       200:
