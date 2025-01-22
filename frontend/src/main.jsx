@@ -15,6 +15,7 @@ const ProductDetailPage = lazy(() => import("./pages/ProductDetail.jsx"));
 const AccountSetting = lazy(() => import("./pages/AccountSetting.jsx"));
 const MyOrders = lazy(() => import("./pages/MyOrders.jsx"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword.jsx"));
+const ConfirmPassword = lazy(() => import("./pages/ConfirmPassword.jsx"));
 const RatingForm = lazy(() => import("./pages/RatingForm.jsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
 const Graph = lazy(() => import("./pages/Graphs.jsx"));
@@ -117,6 +118,14 @@ const routes = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <ForgotPassword />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/confirm-password",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ConfirmPassword />
           </Suspense>
         ),
       },

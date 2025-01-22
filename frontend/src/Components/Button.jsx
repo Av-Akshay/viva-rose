@@ -14,7 +14,7 @@ const Button = ({ id, sendEnquiry, children, type, className, ...props }) => {
       //   }
       {...props}
       type={type}
-      className={`text-lg border border-headingColor text-headingColor hover:text-white hover:bg-headingColor font-poppinsSemibold transition-all  ${className} `}
+      className={`text-lg border-[0.2rem] border-headingColor text-headingColor hover:text-white hover:bg-headingColor font-poppinsSemibold transition-all  ${className} `}
     >
       {children}
     </button>
