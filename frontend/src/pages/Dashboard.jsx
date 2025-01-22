@@ -40,7 +40,7 @@ const Dashboard = () => {
           </ul>
         </div>
       </div>
-      <div className="h-[79.93vh] flex">
+      <div className="h-[90vh] flex items-center">
         <div className="w-[20%] bg-white h-full flex flex-col items-center p-5 gap-5">
           <NavLink
             to="/admin/dashboard"
@@ -152,47 +152,9 @@ const Dashboard = () => {
             </details>
           </div>
         </div>
-        <Outlet />
-        {/* <div className="w-full flex flex-col gap-5 p-5">
-            <h1 className="text-headingColor font-poppinsBold text-3xl ">
-              Dashboard
-            </h1>
-           
-            <div className="flex items-center justify-center gap-10">
-              <OrderCard
-                orderType={"successful orders"}
-                orders="2,867"
-                Icon={GiStorkDelivery}
-              />
-              <OrderCard
-                orderType={"cancelled orders"}
-                orders="867"
-                Icon={MdCancel}
-              />
-              <OrderCard
-                orderType={"Refund orders"}
-                orders="567"
-                Icon={RiRefund2Fill}
-              />
-              <OrderCard
-                orderType={"Active orders"}
-                orders="1,367"
-                Icon={RiRadioButtonLine}
-              />
-            </div>
-          
-            <div className="w-full h-full flex items-center">
-              <div className="w-1/2 h-full p-2 ">
-                <DashboardLineChart />
-              </div>
-              <div className="w-1/2 h-full p-2 ">
-                <DashboardBarChart />
-              </div>
-            </div>
-          </div> */}
-
-        {/* {activePath === "all-products" && <DashboardAllProducts />} */}
-        {/* {activePath === "all-orders" && <DashboardOrderList />} */}
+        <div className="w-full h-full">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

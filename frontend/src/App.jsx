@@ -7,7 +7,7 @@ function App() {
   const showFooter = !location.pathname.startsWith("/admin/dashboard");
   return (
     <>
-      <Navbar />
+      {showFooter && <Navbar />}
       <Outlet />
       {showFooter && <Footer />}
     </>

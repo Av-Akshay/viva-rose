@@ -40,6 +40,7 @@ import DashboardBarChart from "./Amin-dashboard/dashboard/DashboardBarChart";
 
 // -----------------admin order details --------------------------
 import OrderInfoCards from "./dashboard-order-detail/OrderInfoCards";
+import DashboardInput from "./DashboardInput";
 
 export {
   Input,
@@ -68,4 +69,5 @@ export {
   DashboardLineChart,
   DashboardBarChart,
   OrderInfoCards,
+  DashboardInput,
 };
