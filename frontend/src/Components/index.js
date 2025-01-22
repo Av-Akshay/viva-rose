@@ -5,6 +5,7 @@ import Heading from "./Heading";
 import Pera from "./Pera";
 import Cards from "./Cards";
 import Input from "./Input";
+import Button from "./Button";
 
 //--------------------- landing page --------------------
 import Section from "./landing/Section";
@@ -43,6 +44,7 @@ import OrderInfoCards from "./dashboard-order-detail/OrderInfoCards";
 import DashboardInput from "./DashboardInput";
 
 export {
+  Button,
   Input,
   Heading,
   Pera,

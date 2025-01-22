@@ -27,16 +27,54 @@ const Dashboard = () => {
                 }}
               >
                 <input
-                  className="border-[0.14rem] rounded-md w-40 border-black px-5 py-1 text-base font-poppinsLight"
+                  className="border-[0.14rem] rounded-md w-40 border-headingColor  px-5 py-1 text-base font-poppinsLight text-headingColor"
                   placeholder="Search here "
                   type="text"
                 />
               </form>
             </li>
-            <li className="text-3xl text-black">
-              <IoIosNotifications />
+            <li className="">
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="text-3xl text-headingColor m-1"
+                >
+                  <IoIosNotifications />
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content !top-16 !-right-24 menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                >
+                  <li>
+                    <a>Item 1</a>
+                  </li>
+                  <li>
+                    <a>Item 2</a>
+                  </li>
+                </ul>
+              </div>
             </li>
-            <li className=" btn font-poppinsMedium capitalize">admin</li>
+            <li className="dropdown dropdown-hover dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="capitalize text-headingColor font-poppinsMedium btn m-1"
+              >
+                admin
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+              >
+                <li className="font-poppinsMedium text-headingColor">
+                  <a>Change Password</a>
+                </li>
+                <li className="font-poppinsMedium text-headingColor">
+                  <a>Logout</a>
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>
