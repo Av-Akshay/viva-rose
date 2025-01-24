@@ -1,10 +1,19 @@
 const orderService = require("../services/order.service.js");
 const logger = require("../configs/winston.config.js");
 
-// Create an order from the cart
-const createOrder = async (req, res, next) => {
+// Create an order after buy now
+const createBuyNowOrder = async (req, res, next) => {
     try{
-        const {message, order}= await orderService.createOrder(req.body.userId);
+        const {message, order}= await orderService.createBuyNowOrder(req.body.userId, req.body.addressId, req.body);
+        res.status(201).json({ message, order });
+    } catch (error) {
+        next(error);
+    }
+}
+// Create an order from the cart
+const createCartOrder = async (req, res, next) => {
+    try{
+        const {message, order}= await orderService.createCartOrder(req.body.userId, req.body.addressId);
         res.status(201).json({ message, order });
     } catch (error) {
         next(error);
@@ -52,9 +61,9 @@ const getOrderById = async (req, res, next) => {
 };
 
 // Update order status
-const updateOrderStatus = async (req, res, next) => {
+const updateOrderShippingStatus = async (req, res, next) => {
     try {
-        const order = await orderService.updateOrderStatus(req.params.orderId, req.body.status);
+        const order = await orderService.updateOrderShippingStatus(req.params.orderId, req.body);
         res.status(200).json(order);
     } catch (error) {
          next(error);
@@ -71,4 +80,4 @@ const deleteOrder = async (req, res, next) => {
     }
 };
 
-module.exports={createOrder, initiatePayment, verifyPayment, getOrderById, getOrdersByUserId, updateOrderStatus, deleteOrder};
+module.exports={createBuyNowOrder, createCartOrder, initiatePayment, verifyPayment, getOrderById, getOrdersByUserId, updateOrderShippingStatus, deleteOrder};

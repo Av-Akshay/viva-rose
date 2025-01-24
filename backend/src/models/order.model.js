@@ -3,7 +3,9 @@ const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     orderCode: { type: Number, required: true },
+    addressId: { type: mongoose.Schema.Types.ObjectId, ref: "Address", required: true },
     deliveryDate: {type: Date},
+    returnWindowDate: {type: Date},
     items: [
         {
             jewelleryId: { type: mongoose.Schema.Types.ObjectId, ref: "Jewellery"},
@@ -13,7 +15,8 @@ const orderSchema = new mongoose.Schema({
     totalAmount: { type: Number, required: true },
     paymentId: { type: String },
     paymentStatus: { type: String, default: "Pending" }, // Pending, Paid, Failed
-    status: { type: String, default: "Pending", enum: ["Pending", "Completed", "Cancelled", "Returned"] },
+    orderStatus: { type: String, default: "In progress", enum: ["In progress", "Completed", "Cancelled", "Returned", "Replaced"] },
+    shippingStatus: {type: String, default: "Order Processing", enum: ["Order Processing", "Order Packed", "Order Shipped", "Out of Delivery", "Order Delivered", "Returned to Sender", "Out for receiving "]},
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

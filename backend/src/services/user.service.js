@@ -30,12 +30,12 @@ const createUser = async (userData) => {
   user.email = email;
   user.role = "User";
   user.password = password;
-  user.phone= userData.phone;
+  //user.phone= userData.phone;
   user.isVerified = false;
 
   await user.save();
-  //const response = await sendOTP(user.email);
-  const response=JWTToken.generateToken(user);
+  const response = await sendOTP(user.email);
+  //const response=JWTToken.generateToken(user);
 
   return { response, user }; // Return both user and token
 };

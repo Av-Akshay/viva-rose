@@ -51,7 +51,7 @@ const generateOrderCode = async () => {
 
 
 // Create an order
-const createOrder = async (userId) => {
+const createCartOrder = async (userId, addressId) => {
     const { cart, validItems } = await fetchValidCart(userId);
     let orderCode=0;
     let orderCodeCheck=[];
@@ -69,6 +69,7 @@ const createOrder = async (userId) => {
         orderCode,
         items: validItems,
         totalAmount,
+        addressId
     });
     const currentDate = new Date();
     order.deliveryDate= new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -88,6 +89,56 @@ const createOrder = async (userId) => {
     }
     cart.items = [];
     await cart.save();
+
+    return { message: "Order placed successfully", order };
+};
+
+// Create an order
+const createBuyNowOrder = async (userId, addressId, itemData) => {
+
+    let orderCode=0;
+    let orderCodeCheck=[];
+    do {
+        orderCode = await generateOrderCode();
+    
+        // Check if the generated order code already exists
+        orderCodeCheck = await Order.find({ orderCode });
+    } while (orderCodeCheck.length > 0); // Repeat if the order code already exists
+
+    const jewellery = await Jewellery.findById(itemData.jewelleryId);
+    const items=[];
+    const jewelleryId=itemData.jewelleryId;
+    const quantity=itemData.quantity;
+    items.push({
+        jewelleryId,
+        quantity
+    });
+    
+    const totalAmount = jewellery.price * quantity;
+
+    const order = new Order({
+        userId,
+        orderCode,
+        items,
+        totalAmount,
+        addressId
+    });
+    const currentDate = new Date();
+    order.deliveryDate= new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    await order.save();
+    const user = await User.findById(userId);
+    user.orders.push(order._id);
+    await user.save();
+
+    // Deduct stock and clear cart
+    for (const item of order.items) {
+        const jewellery = await Jewellery.findById(item.jewelleryId._id);
+        if (!jewellery) throw new NotFoundError(`Jewellery not found for ID ${item.jewelleryId._id}`);
+        jewellery.stockCount -= item.quantity;
+        jewellery.orders.push(order._id);
+        await jewellery.save();
+    }
 
     return { message: "Order placed successfully", order };
 };
@@ -152,12 +203,14 @@ const getOrderById = async (orderId) => {
 };
 
 // Update order status
-const updateOrderStatus = async (orderId, status) => {
+const updateOrderShippingStatus = async (orderId, status) => {
+    const orderStatus=status.orderStatus;
+    const shippingStatus=status.shippingStatus;
     const order = await Order.findById(orderId).populate("items.jewelleryId");
     if (!order) throw new NotFoundError("Order not found");
-    if (!status) throw new BadRequestError("Order status is required");
+    if (!orderStatus) throw new BadRequestError("Order status is required");
 
-    if (status === "Cancelled" || status==="Returned") {
+    if (orderStatus === "Cancelled" || orderStatus==="Returned") {
         for (const item of order.items) {
             const jewellery = await Jewellery.findById(item.jewelleryId);
             if (jewellery) {
@@ -168,8 +221,7 @@ const updateOrderStatus = async (orderId, status) => {
             }
         }
     }
-
-    const updatedOrder = await Order.findByIdAndUpdate(orderId, { status }, { new: true });
+    const updatedOrder = await Order.findByIdAndUpdate(orderId, { orderStatus }, { new: true });
     if (!updatedOrder) throw new NotFoundError("Order not found");
     return updatedOrder;
 };
@@ -196,11 +248,12 @@ const deleteOrder = async (orderId) => {
 };
 
 module.exports = {
-    createOrder,
+    createCartOrder,
+    createBuyNowOrder,
     initiatePayment,
     verifyPayment,
     getOrdersByUserId,
     getOrderById,
-    updateOrderStatus,
+    updateOrderShippingStatus,
     deleteOrder,
 };

@@ -55,7 +55,7 @@ router.get("/:orderId", orderController.getOrderById);
 
 /**
  * @swagger
- * /orders:
+ * /orders/cart:
  *   post:
  *     summary: Create an order from the user's cart.
  *     tags: [Orders]
@@ -69,6 +69,8 @@ router.get("/:orderId", orderController.getOrderById);
  *               userId:
  *                 type: string
  *                 description: The ID of the user.
+ *               addressId:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Order created successfully.
@@ -77,7 +79,39 @@ router.get("/:orderId", orderController.getOrderById);
  *       404:
  *         description: Cart or items not found.
  */
-router.post("/", orderController.createOrder);
+router.post("/cart", orderController.createCartOrder);
+
+/**
+ * @swagger
+ * /orders/buy-now:
+ *   post:
+ *     summary: Create an buy now order.
+ *     tags: [Orders]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: string
+ *                 description: The ID of the user.
+ *               addressId:
+ *                 type: string
+ *               jewelleryId:
+ *                 type: string
+ *               quantity:
+ *                 type: number
+ *     responses:
+ *       201:
+ *         description: Order created successfully.
+ *       400:
+ *         description: Bad request.
+ *       404:
+ *         description: Cart or items not found.
+ */
+router.post("/buy-now", orderController.createBuyNowOrder);
 
 /**
  * @swagger
@@ -149,17 +183,21 @@ router.post("/payment/verify", orderController.verifyPayment);
  *           schema:
  *             type: object
  *             properties:
- *               status:
+ *               orderStatus:
  *                 type: string
- *                 enum: ["Pending", "Completed", "Shipped","Out for Delivery","Cancelled", "Returned"]
+ *                 enum: ["In progress", "Completed", "Cancelled", "Returned", "Replaced"]
  *                 description: The new status of the order.
+ *               shippingStatus:
+ *                 type: string
+ *                 enum: 
+ *                 description: The new shipping status of the order.
  *     responses:
  *       200:
  *         description: Order status updated successfully.
  *       404:
  *         description: Order not found.
  */
-router.put("/:orderId", orderController.updateOrderStatus);
+router.put("/:orderId", orderController.updateOrderShippingStatus);
 
 /**
  * @swagger
