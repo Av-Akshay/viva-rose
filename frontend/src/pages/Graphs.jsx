@@ -11,7 +11,7 @@ import {
 
 const Graphs = () => {
   return (
-    <div className="w-full flex flex-col gap-5 p-5">
+    <div className="w-full h-full flex flex-col gap-5 p-5">
       <h1 className="text-headingColor font-poppinsBold text-3xl ">
         Dashboard
       </h1>

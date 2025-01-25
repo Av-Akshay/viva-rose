@@ -19,7 +19,7 @@ const ConfirmPassword = lazy(() => import("./pages/ConfirmPassword.jsx"));
 const ChangePassword = lazy(() => import("./pages/ChangePassword.jsx"));
 const RatingForm = lazy(() => import("./pages/RatingForm.jsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
-const Graph = lazy(() => import("./pages/Graphs.jsx"));
+const Graphs = lazy(() => import("./pages/Graphs.jsx"));
 const DashboardAllProducts = lazy(() =>
   import("./pages/DashboardAllProducts.jsx")
 );
@@ -150,7 +150,7 @@ const routes = createBrowserRouter([
             path: "/admin/dashboard",
             element: (
               <Suspense fallback={<Loader />}>
-                <Graph />
+                <Graphs />
               </Suspense>
             ),
           },
