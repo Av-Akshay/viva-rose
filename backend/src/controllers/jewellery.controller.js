@@ -57,7 +57,7 @@ const searchJewellery= async(req, res, next) =>{
           // Access sorting parameters from the query
           const sortBy = req.query.sortBy; // price or dateListed
           const sortOrder = req.query.sortOrder === "High to Low" ? -1 : 1; // 'desc' for descending, 'asc' or default for ascending
-        const jewellery= await jewelleryService.searchJewellery(filters, sortBy, sortOrder);
+        const jewellery= await jewelleryService.searchJewellery(filters, sortBy, sortOrder, req.query.searchQuery);
         res.status(200).json({
             success: true,
             data: jewellery,

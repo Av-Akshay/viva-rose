@@ -52,24 +52,24 @@ const generateOrderCode = async () => {
 
 // Create an order
 const createCartOrder = async (userId, addressId) => {
+    var orderCodeString='ODR';
     const { cart, validItems } = await fetchValidCart(userId);
     let orderCode=0;
     let orderCodeCheck=[];
     do {
-        orderCode = await generateOrderCode();
-    
+        let orderCode1 = await generateOrderCode();
+        orderCode= orderCodeString+orderCode1;
         // Check if the generated order code already exists
         orderCodeCheck = await Order.find({ orderCode });
     } while (orderCodeCheck.length > 0); // Repeat if the order code already exists
 
-    const totalAmount = validItems.reduce((sum, item) => sum + item.jewelleryId.price * item.quantity, 0);
-
+    const totalAmount = validItems.reduce((sum, item) => sum + item.amount, 0)+79;
     const order = new Order({
         userId,
         orderCode,
         items: validItems,
         totalAmount,
-        addressId
+        addressId,
     });
     const currentDate = new Date();
     order.deliveryDate= new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -95,12 +95,12 @@ const createCartOrder = async (userId, addressId) => {
 
 // Create an order
 const createBuyNowOrder = async (userId, addressId, itemData) => {
-
-    let orderCode=0;
+    var orderCodeString='ODR';
+    let orderCode;
     let orderCodeCheck=[];
     do {
-        orderCode = await generateOrderCode();
-    
+        let orderCode1 = await generateOrderCode();
+        orderCode= orderCodeString+orderCode1;
         // Check if the generated order code already exists
         orderCodeCheck = await Order.find({ orderCode });
     } while (orderCodeCheck.length > 0); // Repeat if the order code already exists
@@ -109,12 +109,14 @@ const createBuyNowOrder = async (userId, addressId, itemData) => {
     const items=[];
     const jewelleryId=itemData.jewelleryId;
     const quantity=itemData.quantity;
+    const amount=jewellery.price * quantity;
     items.push({
         jewelleryId,
-        quantity
+        quantity,
+        amount
     });
     
-    const totalAmount = jewellery.price * quantity;
+    const totalAmount = amount + 79;
 
     const order = new Order({
         userId,
@@ -151,7 +153,7 @@ const initiatePayment = async (orderId) => {
     const razorpayOrder = await razorpay.orders.create({
         amount: order.totalAmount * 100,
         currency: "INR",
-        receipt: `order_${order._id}`,
+        receipt: `ORDER_${order.orderCode}`,
     });
 
     order.paymentId = razorpayOrder.id;
@@ -182,6 +184,7 @@ const verifyPayment = async (razorpay_order_id, razorpay_payment_id, razorpay_si
         await jewellery.save();
     }
     order.paymentStatus = "Paid";
+    order.orderStatus="Order Confirmed";
     order.deliveryDate= new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
     await order.save();
 
@@ -204,13 +207,11 @@ const getOrderById = async (orderId) => {
 
 // Update order status
 const updateOrderShippingStatus = async (orderId, status) => {
-    const orderStatus=status.orderStatus;
-    const shippingStatus=status.shippingStatus;
     const order = await Order.findById(orderId).populate("items.jewelleryId");
     if (!order) throw new NotFoundError("Order not found");
-    if (!orderStatus) throw new BadRequestError("Order status is required");
+    if (!status) throw new BadRequestError("Order status is required");
 
-    if (orderStatus === "Cancelled" || orderStatus==="Returned") {
+    if (status === "Order Cancelled") {
         for (const item of order.items) {
             const jewellery = await Jewellery.findById(item.jewelleryId);
             if (jewellery) {
@@ -221,7 +222,7 @@ const updateOrderShippingStatus = async (orderId, status) => {
             }
         }
     }
-    const updatedOrder = await Order.findByIdAndUpdate(orderId, { orderStatus }, { new: true });
+    const updatedOrder = await Order.findByIdAndUpdate(orderId, { status }, { new: true });
     if (!updatedOrder) throw new NotFoundError("Order not found");
     return updatedOrder;
 };

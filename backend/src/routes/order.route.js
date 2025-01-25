@@ -185,12 +185,8 @@ router.post("/payment/verify", orderController.verifyPayment);
  *             properties:
  *               orderStatus:
  *                 type: string
- *                 enum: ["In progress", "Completed", "Cancelled", "Returned", "Replaced"]
+ *                 enum: ["Order Confirmed", "Order Packed", " Order Shipped", "Out of Delivery", "Order Delivered", "Order Cancelled", "Replacement Requested", "Replacement Approved","Replacement Order Processing","Replacement Order Packed", "Replacement Order Shipped", "Replacement Order Out of Delivery", "Replacement Order Delivered"]
  *                 description: The new status of the order.
- *               shippingStatus:
- *                 type: string
- *                 enum: 
- *                 description: The new shipping status of the order.
  *     responses:
  *       200:
  *         description: Order status updated successfully.

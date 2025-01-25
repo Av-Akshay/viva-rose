@@ -2,6 +2,7 @@ const { NotFoundError, BadRequestError, ConflictError } = require("../errors/err
 const userService = require("./user.service.js");
 const Jewellery = require("../models/jewellery.model.js");
 const {uploadImages, deleteImages} = require('../utils/image.upload.util.js');
+const JsSearch = require("js-search");
 
 const generateJewelleryCode = async()=> {
     let id;
@@ -65,60 +66,106 @@ const getJewelleryById = async (jewelleryId) => {
     return jewellery;
 };
 
-const searchJewellery = async (filters, sortBy, sortOrder) => {
+const searchJewellery = async (filters, sortBy, sortOrder, searchQuery) => {
     const query = {};
 
     // Apply filters
     if (filters.jewelleryCode) query.jewelleryCode = filters.jewelleryCode;
-    if (filters.jewelleryName) query.jewelleryName = filters.jewelleryName;
+    if (filters.jewelleryName) query.jewelleryName = { $regex: new RegExp(filters.jewelleryName, "i") }; // Case-insensitive partial match
     if (filters.jewelleryType) query.jewelleryType = filters.jewelleryType;
-    if(filters.availability=="exclude out of stock"){
-        query.stockStatus='in-stock';
+    if (filters.availability === "exclude out of stock") {
+        query.stockStatus = "in-stock";
     }
 
-    // Budget filter (minPrice and maxPrice)
-    if (filters.minPrice || filters.maxPrice) {
-    query.price = {};
-    if (filters.minPrice) query.price.$gte = filters.minPrice;
-    if (filters.maxPrice) query.price.$lte = filters.maxPrice;
-   }
-
-   if(filters.rating==='4.0 and above'){
-    query.rating.$gte=4;
-   }
-   else if(filters.rating==='3.0 and above'){
-    query.rating.$gte=3;
-   }
-
-  // Define sorting
-  let sortCriteria = {};
-  if (sortBy == 'price') {
-    sortCriteria.price=sortOrder;
-  } else if (sortBy === 'rating') {
-    sortCriteria.price=sortOrder;
- }
-  
-  // Query database with filters and sorting
-  const filteredJewellerys = await Jewellery.find(query).sort(sortCriteria).populate({
-    path: "reviews",
-    populate: {
-      path: "userId",
-      select: ["profilePic", "name", "createdAt"]
+    // Advanced price filter (minPrice, maxPrice, or exactPrice)
+    if (filters.minPrice || filters.maxPrice || filters.exactPrice) {
+        query.price = {};
+        if (filters.minPrice) query.price.$gte = filters.minPrice;
+        if (filters.maxPrice) query.price.$lte = filters.maxPrice;
+        if (filters.exactPrice) query.price = filters.exactPrice;
     }
-  }).exec();
-  
-  if (!filteredJewellerys || filteredJewellerys.length === 0) {
-    throw new NotFoundError('No jewellerys found matching the criteria.');
-  }
-  // const filteredPropertiesResponse = encrypt(JSON.stringify(filteredProperties), process.env.ENCRYPTION_KEY);
-  // return filteredPropertiesResponse;
-  return filteredJewellerys;
-    // const review = await Jewellery.find();
-    // if(!review){
-    //     throw new NotFoundError("Review not found");
-    // }
-    // return review;
+
+    // Rating filter
+    if (filters.rating === "4.0 and above") {
+        query.avgRating = { $gte: 4 };
+    } else if (filters.rating === "3.0 and above") {
+        query.avgRating = { $gte: 3 };
+    }
+
+    // Define sorting
+    const sortCriteria = {};
+    if (sortBy) sortCriteria[sortBy] = sortOrder;
+
+    // Query database with filters and sorting
+    const filteredJewellerys = await Jewellery.find(query)
+        .sort(sortCriteria)
+        .populate({
+            path: "reviews",
+            populate: {
+                path: "userId",
+                select: ["profilePic", "name", "createdAt"],
+            },
+        })
+        .exec();
+
+    if (!filteredJewellerys || filteredJewellerys.length === 0) {
+        throw new Error("No jewellery found matching the criteria.");
+    }
+
+    // If a search query is provided, use js-search for in-memory searching
+    let finalResults = filteredJewellerys;
+    if (searchQuery) {
+        // Tokenize search input into words
+        const searchTokens = searchQuery.split(" ");
+
+        // Initialize js-search
+        const searchEngine = new JsSearch.Search("jewelleryCode"); // Use a unique field for indexing
+
+        // Configure search indexing fields
+        searchEngine.indexStrategy = new JsSearch.AllSubstringsIndexStrategy(); // More flexible substring matching
+        searchEngine.sanitizer = new JsSearch.LowerCaseSanitizer();
+        searchEngine.searchIndex = new JsSearch.TfIdfSearchIndex();
+
+        // Add weighted searchable fields
+        searchEngine.addIndex("jewelleryName"); // High priority
+        searchEngine.addIndex("description"); // Medium priority
+        searchEngine.addIndex("material"); // Medium priority
+        searchEngine.addIndex("genderCategory"); // Low priority
+        searchEngine.addIndex("colour"); // Low priority
+
+        // Add the filtered results to the search index
+        searchEngine.addDocuments(filteredJewellerys);
+
+        // Perform the search for each token and merge results
+        const searchResults = searchTokens.reduce((results, token) => {
+            const partialResults = searchEngine.search(token);
+            return [...results, ...partialResults];
+        }, []);
+
+        // Deduplicate and combine search results
+        const uniqueSearchResults = Array.from(
+            new Map(
+                searchResults.map((item) => [item._id.toString(), item])
+            ).values()
+        );
+
+        // Combine filtered and search results
+        finalResults = uniqueSearchResults.filter((item) =>
+            filteredJewellerys.some((j) => j._id.toString() === item._id.toString())
+        );
+
+        // Append additional search results that weren't in filtered results
+        const searchResultIds = new Set(finalResults.map((item) => item._id.toString()));
+        finalResults = [
+            ...finalResults,
+            ...uniqueSearchResults.filter((item) => !searchResultIds.has(item._id.toString())),
+        ];
+    }
+
+    // Return final combined results
+    return finalResults;
 };
+
 
 const updateJewellery = async (userId, jewelleryId, jewelleryData, files) => {
     const user= await userService.getUserById(userId);

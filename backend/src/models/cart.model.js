@@ -9,6 +9,7 @@ const cartSchema = new mongoose.Schema({
         {
             jewelleryId: { type: mongoose.Schema.Types.ObjectId, ref: "Jewellery", required: true },
             quantity: { type: Number, default: 1 },
+            amount: {type: Number}
         },
     ],
 },{timestamps: true});

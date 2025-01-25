@@ -1,5 +1,6 @@
-const { BadRequestError } = require("../errors/errors");
+const { BadRequestError, NotFoundError } = require("../errors/errors");
 const Cart = require("../models/cart.model.js");
+const Jewellery = require("../models/jewellery.model.js");
 const User= require("../models/user.model.js");
 
 // Get cart by userId
@@ -18,8 +19,13 @@ const addItemToCart = async (userId, { jewelleryId, quantity }) => {
     }
     let user = await User.findById(userId);
     let cart = await Cart.findOne({ userId });
+    let jewellery= await Jewellery.findById(jewelleryId);
+    if(!jewellery){
+        throw new NotFoundError("Jewellery not found");
+    }
+    let amount=jewellery.price*quantity;
     if (!cart) {
-        cart = new Cart({ userId, items: [{ jewelleryId, quantity }] });
+        cart = new Cart({ userId, items: [{ jewelleryId, quantity, amount }] });
         user.cart=cart._id;
         await user.save();
     } else {
@@ -29,8 +35,9 @@ const addItemToCart = async (userId, { jewelleryId, quantity }) => {
 
         if (itemIndex > -1) {
             cart.items[itemIndex].quantity += quantity;
+            cart.items[itemIndex].amount += jewellery.price*quantity;
         } else {
-            cart.items.push({ jewelleryId, quantity });
+            cart.items.push({ jewelleryId, quantity, amount });
         }
     }
     await cart.save();
@@ -48,6 +55,11 @@ const updateCartItem = async (userId, { jewelleryId, quantity }) => {
         throw new BadRequestError("Cart not found");
     }
 
+    const jewellery = await jewellery.findOne(jewelleryId);
+    if (!jewellery) {
+        throw new BadRequestError("Jewellery not found");
+    }
+
     const itemIndex = cart.items.findIndex(
         (item) => item.jewelleryId.toString() === jewelleryId
     );
@@ -56,6 +68,7 @@ const updateCartItem = async (userId, { jewelleryId, quantity }) => {
             cart.items.splice(itemIndex, 1); // Remove item if quantity is 0
         } else {
             cart.items[itemIndex].quantity = quantity;
+            cart.items[itemIndex].amount = jewellery.price*quantity;
         }
     } else {
         throw new BadRequestError("Item not found in cart");

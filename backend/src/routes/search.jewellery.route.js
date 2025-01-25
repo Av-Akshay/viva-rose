@@ -10,6 +10,10 @@ const router = express.Router();
  *     tags: [Jewellery]
  *     parameters:
  *       - in: query
+ *         name: searchQuery
+ *         schema:
+ *           type: string
+ *       - in: query
  *         name: jewelleryCode
  *         schema:
  *           type: string
