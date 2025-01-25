@@ -7,7 +7,14 @@ const Products = ({ items }) => {
   return (
     <React.Fragment>
       {items?.map((item) => {
-        return <Cards key={item} pic={set} name="set" />;
+        return (
+          <Cards
+            key={item._id}
+            pic={item?.jewelleryImages[0]}
+            price={item?.price}
+            name={item?.jewelleryType}
+          />
+        );
       })}
     </React.Fragment>
   );

@@ -1,11 +1,22 @@
 import React from "react";
 
+import useGetAllJewellery from "../hooks/useGetAllJewellery";
+
 import { Filters, Products, ProductsSort } from "../Components";
 
 const ProductsListingPage = () => {
-  let items = [];
-  for (let i = 0; i <= 50; i++) {
-    items.push(i);
+  const { error, isError, isLoading, products } = useGetAllJewellery();
+  // console.log(products);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+  if (isError) {
+    return (
+      <p style={{ color: "red" }}>
+        Error: {error.message || "Something went wrong."}
+      </p>
+    );
   }
   return (
     <div className=" w-full mx-auto flex items-baseline my-10">
@@ -13,9 +24,9 @@ const ProductsListingPage = () => {
         <Filters />
       </div>
       <div className="w-full border-l relative border-black pl-2 h-[74vh] overflow-x-auto pr-10 my-scrollbar">
-        <ProductsSort />
+        <ProductsSort products={products} />
         <div className="mt-2 flex items-center justify-center flex-wrap gap-5">
-          <Products items={items} />
+          <Products items={products} />
         </div>
       </div>
     </div>

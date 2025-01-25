@@ -1,10 +1,10 @@
 import React from "react";
 
-const ProductsSort = () => {
+const ProductsSort = React.memo(({ products }) => {
   return (
     <div className="flex items-center justify-between bg-white sticky top-0 py-2 ">
       <span className="font-poppinsMedium text-sm ">
-        397 products available
+        {products?.length} products available
       </span>
       <select className="select font-poppinsLight text-sm !outline-none !border !border-black rounded-none w-full max-w-xs">
         <option disabled selected>
@@ -17,6 +17,6 @@ const ProductsSort = () => {
       </select>
     </div>
   );
-};
+});
 
 export default ProductsSort;

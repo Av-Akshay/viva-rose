@@ -1,9 +1,14 @@
 import { lazy, StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+
+import { persistor, store } from "./store/store.js";
 import { Loader } from "./Components/index.js";
+import App from "./App.jsx";
+import "./index.css";
 
 const LandingPage = lazy(() => import("./pages/LandingPage.jsx"));
 const LoginPage = lazy(() => import("./pages/Login.jsx"));
@@ -192,8 +197,16 @@ const routes = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={routes} />
+    <Provider store={store}>
+      <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={routes} />
+        </QueryClientProvider>
+      </PersistGate>
+    </Provider>
   </StrictMode>
 );

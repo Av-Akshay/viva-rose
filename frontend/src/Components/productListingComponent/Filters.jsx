@@ -15,17 +15,19 @@ const Filters = () => {
           <option disabled selected>
             Pick your favorite Jewellery
           </option>
-          <option> Necklace </option>
-          <option>Rings</option>
-          <option>Pendents</option>
-          <option>Ear-rings</option>
-          <option>Bracelets</option>
-          <option>Anklets</option>
-          <option>Toe-rings</option>
-          <option>Boches and pins</option>
-          <option>Jewellery sets</option>
-          <option>Traditional & Ethnic</option>
-          <option>Men Silver</option>
+          <option defaultValue={"Necklace"}> Necklace </option>
+          <option defaultValue={"Rings"}>Rings</option>
+          <option defaultValue={"Pendents"}>Pendents</option>
+          <option defaultValue={"Ear-rings"}>Ear-rings</option>
+          <option defaultValue={"Bracelets"}>Bracelets</option>
+          <option defaultValue={"Anklets"}>Anklets</option>
+          <option defaultValue={"Toe-rings"}>Toe-rings</option>
+          <option defaultValue={"Boches and pins"}>Boches and pins</option>
+          <option defaultValue={"Jewellery sets"}>Jewellery sets</option>
+          <option defaultValue={"Traditional & Ethnic"}>
+            Traditional & Ethnic
+          </option>
+          <option defaultValue={"Men Silver"}>Men Silver</option>
         </select>
       </div>
       <div className="flex flex-col gap-1">
